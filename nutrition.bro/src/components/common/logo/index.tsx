@@ -1,7 +1,7 @@
 export default function Logo(props:any)
 {
     return (
-        <a href="#" className="flex ml-20 mt-12">
+        <a href="#" className="flex">
             <img src="./logo.svg" className="cursor-pointer inline-block align-middle w-16"></img>
             {
                 props.style == "with-text" &&

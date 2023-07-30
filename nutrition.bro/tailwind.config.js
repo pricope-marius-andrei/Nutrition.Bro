@@ -6,6 +6,9 @@ module.exports = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    screens: {
+      'lg': '1080px',
+    },
     fontFamily:{
       'fredoka-regular': "Fredoka-Regular",
       'fredoka-bold': "Fredoka-Bold",
