@@ -7,13 +7,16 @@ module.exports = {
   ],
   theme: {
     screens: {
-      'lg': '1080px',
+      'lg': '1280px',
+      'md': '1000px',
+      'sm': '720px',
     },
     fontFamily:{
       'fredoka-regular': "Fredoka-Regular",
       'fredoka-bold': "Fredoka-Bold",
       'fredoka-semi-bold': "Fredoka-Semi-Bold",
       'fredoka-light': "Fredoka-Light",
+      'fredoka-medium': "Fredoka-Medium",
     },
     colors: {
       transparent: 'transparent',
