@@ -1,3 +1,4 @@
+import { trace } from "console"
 import Button from "../common/button"
 
 export default function Hero() {
