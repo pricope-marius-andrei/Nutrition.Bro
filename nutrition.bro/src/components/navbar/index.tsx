@@ -24,11 +24,11 @@ export default function NavBar()
             </div>
             <div className="my-auto place-content-center">
                 <span className="top px-20 place-content-center lg:hidden flex"><Hamburger color="#454d66" toggled={hamburgerStatus} toggle={setHamburger}/></span> 
-                {(isDesktopOrLaptop || hamburgerStatus) && <ul className="lg:flex bg-white bg-opacity-90 p-2 rounded-b-3xl lg:relative absolute text-black text-center lg:mr-20 lg:items-center lg:space-x-10 text-2xl font-fredoka-light">
+                {(isDesktopOrLaptop || hamburgerStatus) && <ul className="lg:flex lg:bg-opacity-0 bg-white bg-opacity-90 p-2 rounded-b-3xl lg:relative absolute text-black text-center lg:mr-20 lg:items-center lg:space-x-10 text-2xl font-fredoka-light">
                     <li className="cursor-pointer">HOME</li>
                     <li className="cursor-pointer">FOOD</li>
                     <li className="cursor-pointer">BLOGS</li>
-                    <li className="cursor-pointer"><Button name="ACCOUNT"/></li>
+                    <li className="cursor-pointer"><Button isRounded={true} name="ACCOUNT"/></li>
                 </ul>
                 }
             </div>
