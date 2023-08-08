@@ -8,8 +8,8 @@ export default function Menu()
     const [statusButtons,changeStatus] = useState({id1:false,id2:true,id3:true,id4:true}) 
 
     return (
-        <div>
-            <div className="flex mt-20 mx-auto justify-center">
+        <div className="my-28">
+            <div className="md:flex justify-center">
                 <div className="w-fit h-fit" onClick={()=> {changeStatus(
                     {
                         id1:false,
