@@ -1,8 +1,5 @@
 'use client'
 
-import { Component } from "react";
-import React, { useState,useEffect } from "react";
-
 export default function Button(props:any) {
     
     //set the style of the button

@@ -1,4 +1,5 @@
-import { trace } from "console"
+'use client'
+
 import Button from "../common/button"
 
 export default function Hero() {
