@@ -1,5 +1,3 @@
-import Provider from "@components/common/provider"
-import Footer from "@components/footer"
 import NavBar from "@components/navbar"
 import "@styles/globals.css"
 import type { Metadata } from 'next'
@@ -20,13 +18,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Provider>
-          <main className="app">
-            <NavBar/>  
-            {children}
-            <Footer/>
-          </main>
-        </Provider>
+
+        <main className="app">
+          <NavBar/>  
+          {children}
+        </main>
       </body>
     </html>
   )

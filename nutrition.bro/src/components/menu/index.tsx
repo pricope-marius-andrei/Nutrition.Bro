@@ -2,6 +2,7 @@
 
 import Button from "../common/button";
 import {useState } from "react";
+import logo from "../../../public/icons/logo.svg"
 
 export default function Menu()
 {
@@ -18,7 +19,7 @@ export default function Menu()
                         id4:true
                     })
                     }}>
-                    <Button logo="./logo.svg" isTransparent={statusButtons.id1} name="CALORIES CALCULATOR"/>
+                    <Button logo={logo} isTransparent={statusButtons.id1} name="CALORIES CALCULATOR"/>
                 </div>
                 <div className="w-fit h-fit" onClick={()=> {changeStatus(
                     {
@@ -28,7 +29,7 @@ export default function Menu()
                         id4:true
                     })
                     }}>
-                    <Button logo="./logo.svg" isTransparent={statusButtons.id2} name="RECIPES"/>
+                    <Button logo={logo} isTransparent={statusButtons.id2} name="RECIPES"/>
                 </div>
                 <div className="w-fit h-fit" onClick={()=> {changeStatus(
                     {
@@ -38,7 +39,7 @@ export default function Menu()
                         id4:true
                     })
                     }}>
-                    <Button logo="./logo.svg" isTransparent={statusButtons.id3} name="F.O.T.D"/>
+                    <Button logo={logo} isTransparent={statusButtons.id3} name="F.O.T.D"/>
                 </div>
                 <div className="w-fit h-fit" onClick={()=> {changeStatus(
                     {
@@ -48,7 +49,7 @@ export default function Menu()
                         id4:false
                     })
                     }}>
-                    <Button logo="./logo.svg" isTransparent={statusButtons.id4} name="COMPARE CALORIES"/>
+                    <Button logo={logo} isTransparent={statusButtons.id4} name="COMPARE CALORIES"/>
                 </div>
             </div>
             <hr className="text-black opacity-30 border-t-2 ml-80 mr-80 m-auto mt-0"></hr>

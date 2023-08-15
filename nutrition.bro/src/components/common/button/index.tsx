@@ -1,5 +1,8 @@
 'use client'
 
+import Link from "next/link";
+import Image from "next/image";
+
 export default function Button(props:any) {
     
     //set the style of the button
@@ -10,8 +13,8 @@ export default function Button(props:any) {
     classNameProp += props.isRounded ? " rounded-3xl":" h-24"
 
     return (
-        <button className={classNameProp}>
-            {props.logo && <img className="w-10 m-auto mr-4" src="./logo.svg"></img>}
+        <button className={classNameProp} key={props.key} onClick={props.onClick}>
+            {props.logo && <Image alt={props.user} width={30} height={30} className="w-10 m-auto rounded-full" src={props.logo}></Image>}
             <div className="w-40 m-auto">
                 {props.name}
             </div>

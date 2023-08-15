@@ -1,40 +1,74 @@
 'use client'
 
+import Link from "next/link"
 import Logo from "../common/logo"
 import Button from "../common/button"
 import React,{ useState, useEffect } from "react"
+import { signIn, signOut, useSession, getProviders, LiteralUnion, ClientSafeProvider } from "next-auth/react"
 import Hamburger from "hamburger-react"
-import { useMediaQuery } from "react-responsive"
 import useBetterMediaQuery from "../../utils/useBetterMediaQuery"
+import { BuiltInProviderType } from "next-auth/providers/index"
+import { resolve } from "path"
 
 export default function NavBar()
 {
+    const {data:session} = useSession();
+
     const [hamburgerStatus, setHamburger] = useState(false);
     const isDesktopOrLaptop = useBetterMediaQuery('(min-width: 1280px)')
     const isPhone = useBetterMediaQuery('(min-width: 720px')
+
+    const [providers, setProviders] = useState<Record<
+    LiteralUnion<BuiltInProviderType, string>,ClientSafeProvider> | null>(null)
     
+    //get list of providers which I setted them
     useEffect(() => {
-        if(isDesktopOrLaptop)
-            setHamburger(false)
-      }, [])
+        const setUserProviders = async () => {
+            const response = await getProviders();
+            setProviders(response);
+        }
+        setUserProviders()
+    }, [])
+
     return (
-        <div className="flex py-5 bg-white bg-opacity-90 backdrop-blur-sm drop-shadow-sm sticky top-0 place-content-between">
-            <div className="top my-auto pl-20">
+        <nav className="flex py-7 bg-white lg:bg-opacity-90 backdrop-blur-sm drop-shadow-sm sticky top-0 place-content-between">
+            <Link href="/" className="top my-auto pl-20">
                 {isPhone ? <Logo style="with-text"/> : <Logo/>}
-            </div>
-            <div className="my-auto place-content-center">
-                <span className="top place-content-center lg:hidden flex"><Hamburger color="#454d66" toggled={hamburgerStatus} toggle={setHamburger}/></span>
-        
+            </Link>
+
+            <div className="my-auto mr-24 place-content-center">
+                <span className="top place-content-center lg:hidden flex"><Hamburger color="#454d66" toggled={hamburgerStatus} toggle={setHamburger}/></span>        
                 {(isDesktopOrLaptop || hamburgerStatus) 
                     && 
-                        <ul className="lg:flex lg:bg-opacity-0 bg-white bg-opacity-90 rounded-b-3xl lg:relative absolute text-black text-center lg:mr-20 lg:items-center lg:space-x-10 text-2xl font-fredoka-light">
-                            <li className="cursor-pointer">HOME</li>
-                            <li className="cursor-pointer">FOOD</li>
-                            <li className="cursor-pointer">BLOGS</li>
-                            <li className="cursor-pointer"><Button isRounded={true} name="ACCOUNT"/></li>
-                        </ul>
+                        <ul className="bg-white lg:flex lg:my-auto lg:bg-opacity-0 lg:relative lg:mr-20 lg:items-center lg:h-0 lg:p-2 lg:space-x-10 lg:text-xl p-4 text-2xl h-screen absolute justify-center text-center font-fredoka-light w-fit mt-20 top-0 right-0 text-black">
+                            <Link href="/"><li className="cursor-pointer">HOME</li></Link>
+                            <Link href="/"><li className="cursor-pointer">FOOD</li></Link>
+                            <Link href="blogs"><li className="cursor-pointer">BLOGS</li></Link>
+                            <Link href="/">
+                                <li className="cursor-pointer">
+                                    {
+                                        session?.user ?
+                                        <Button user={session?.user.name} logo={session?.user.image} isRounded={true} onClick={()=> signOut()} name="ACCOUNT"/>
+                                        :
+                                        <div>
+                                        {
+                                            providers && 
+                                            Object.values(providers).map((provider) =>
+                                                <Button 
+                                                key={provider.name}
+                                                onClick={() => signIn(provider.id)}
+                                                isRounded={true}
+                                                name="SIGN-UP"
+                                                />
+                                            )
+                                        }
+                                        </div>
+                                    }
+                                </li>
+                            </Link>
+                        </ul>   
                 }
             </div>
-        </div>
+        </nav>
     )
 }
