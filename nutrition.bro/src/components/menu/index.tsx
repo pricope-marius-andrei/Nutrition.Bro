@@ -10,7 +10,7 @@ export default function Menu()
 
     return (
         <div className="my-28">
-            <div className="md:flex justify-center">
+            <div className="md:flex justify-center w-fit m-auto">
                 <div className="w-fit h-fit" onClick={()=> {changeStatus(
                     {
                         id1:false,
@@ -52,7 +52,7 @@ export default function Menu()
                     <Button logo={logo} isTransparent={statusButtons.id4} name="COMPARE CALORIES"/>
                 </div>
             </div>
-            <hr className="text-black opacity-30 border-t-2 ml-80 mr-80 m-auto mt-0"></hr>
+            {/* <hr className="text-black opacity-30 border-t-2 ml-80 mr-80 m-auto mt-0"></hr> */}
             <div className="flex p-56 ml-2 mr-2 text-center">
                 <div className="m-auto">
                     {!statusButtons.id1 && 
