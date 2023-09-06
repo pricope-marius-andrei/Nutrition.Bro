@@ -23,7 +23,7 @@ export default function Button(props:any) {
     return (
         url ?
         <Link href={url || "/"}>
-            <button className={classNameProp} key={props.keyProp} onClick={props.onClick}>
+            <button className={classNameProp} key={props.keyProp} onClick={props.onClick} type={props.type}>
                 {props.logo && <Image alt={props.user} width={40} height={40} className="m-auto rounded-full" src={props.logo}></Image>}
                 <div className="m-auto">
                     {props.name}
@@ -32,7 +32,7 @@ export default function Button(props:any) {
          </Link>
         
         :
-        <button className={classNameProp} key={props.keyProp} onClick={props.onClick}>
+        <button className={classNameProp} key={props.keyProp} onClick={props.onClick} type={props.type}>
             {props.logo && <Image alt={props.user} width={40} height={40} className="m-auto rounded-full" src={props.logo}></Image>}
             <div className="m-auto">
                 {props.name}

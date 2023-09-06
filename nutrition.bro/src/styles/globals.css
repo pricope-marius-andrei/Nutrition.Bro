@@ -44,3 +44,33 @@ body {
   color: black;
   background: white;
 }
+
+input[inputMode="text"] {
+  display: block;
+  width: 24rem/* 384px */;
+  padding-left: 1.75rem/* 28px */;
+  padding-right: 1.75rem/* 28px */;
+  height: 4rem/* 64px */;
+  margin-bottom: 1.25rem/* 20px */;
+  border-radius: 0.5rem/* 8px */;
+  --tw-border-opacity: 1;
+  border-color: rgb(244 244 244 / var(--tw-border-opacity));
+  outline: 2px solid transparent;
+    outline-offset: 2px;
+}
+
+
+input[inputMode="text"]:focus {
+  display: block;
+  width: 24rem/* 384px */;
+  padding-left: 1.75rem/* 28px */;
+  padding-right: 1.75rem/* 28px */;
+  height: 4rem/* 64px */;
+  margin-bottom: 1.25rem/* 20px */;
+  border-radius: 0.5rem/* 8px */;
+  --tw-border-opacity: 1;
+  border-color: rgb(48 153 117 / var(--tw-border-opacity));
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  border-width: 2px;
+}
