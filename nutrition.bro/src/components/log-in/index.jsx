@@ -5,6 +5,7 @@ import { getProviders, signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import google from "../../../public/social/google.svg"
+import { AiFillHome } from "react-icons/ai";
 
 export default function LogInComponent()
 {
@@ -56,55 +57,57 @@ export default function LogInComponent()
 
     return (
         !session?.user &&
-        <div className="bg-gray lg:h-screen lg:w-screen w-full flex"> {/*BG*/}
-            <div className="m-auto bg-white lg:w-11/12 w-fit h-full "> {/*BG Register*/}
-                <div className="grid h-full p-5 lg:grid-cols-2 grid-cols-1 grid-rows-1">
-                    <div className="grid grid-cols-1 lg:grid-rows-6 grid-rows-1 p-10 bg-gradient-to-r from-grass-green to-dark-grass h-full w-full">
-                        <div className="text-left text-white h-fit w-full ">
-                            <a onClick={()=>router.push("/")} className="cursor-pointer">HOME</a>
+        <div className="bg-gray flex lg:h-full lg:w-screen h-screen w-full font-fredoka-regular text-base"> {/*BG*/}
+            <div className="m-auto bg-white lg:w-11/12 w-screen h-screen"> {/*BG Register*/}
+                <div className="grid lg:grid-cols-2 lg:grid-rows-1 grid-cols-1 grid-rows-8 h-full p-5">
+                    {/* Left BG */}
+                    <div className="grid bg-gradient-to-r from-grass-green to-dark-grass row-span-1 grid-cols-1 lg:grid-rows-6 grid-rows-2 p-10 lg:h-full h-fit w-full">
+                        <div className="font-fredoka-medium flex lg:text-left lg:row-span-1 row-span-full text-white h-fit w-full ">
+                            <a onClick={()=>router.push("/")} className="cursor-pointer"><AiFillHome size={30}/></a>
                         </div>
-                        <div className="row-span-5">
-                            
+                        <div className="lg:row-span-5">
+
                         </div>
-                    </div> {/* Left BG */}
-                    <div className="grid grid-cols-1 grid-rows-6 p-10 m-auto h-full w-full"> {/* Right FORM */}
-                        <div className="text-right h-fit text-black w-full ">
+                    </div>
+                    {/* Right FORM */}
+                    <div className="grid h-full grid-cols-1 grid-rows-6 p-10 m-auto w-full"> 
+                        <div className="text-right text-dark-grass font-fredoka-medium lg:h-fit w-full">
                             <a onClick={() => {router.push("/sign-up")}} className="cursor-pointer">SWITCH TO SIGN-UP</a>
                         </div>
                         <div className="row-span-5 w-fit m-auto">
-                        <form onSubmit={handleRegister}>
-
-                            <div>
-                                <h1>Email</h1>
-                                <input type="text" inputMode="text" key="email" placeholder="Email" required={true} onChange={(e)=>setEmail(e.target.value)}></input>
-                            </div>
-
-                            <div>
-                                <h1>Password</h1>
-                                <input type="password" inputMode="text" placeholder="Password" required={true} onChange={(e)=>setPassword(e.target.value)}></input>
-                            </div>
-                            <div className="grid grid-rows-1 grid-cols-2 mb-5 h-fit">
-                                <div className="flex">
-                                    <input type="checkbox" key="checkbox" required={false} className="my-auto"></input>
-                                    <h1 className="my-auto pl-5">Remember me</h1>
+                            <form onSubmit={handleRegister}>
+                                <div>
+                                    <h1>Email</h1>
+                                    <input type="text" inputMode="text" key="email" placeholder="Email" required={true} onChange={(e)=>setEmail(e.target.value)}></input>
                                 </div>
-                                <a className="cursor-pointer text-right">Forgot password?</a>
-                            </div>
 
-                            <div className="mb-5">
-                                {providers && 
-                                <Button
-                                    type="submit"
-                                    keyProp={Object.values(providers).at(0).name}
-                                    width="w-96"
-                                    rounded="rounded-lg"
-                                    textSize="text-xl"
-                                    isRounded={true}
-                                    name = "LOG-IN"
-                                    />
-                                }
-                            </div>
-                        </form>
+                                <div>
+                                    <h1>Password</h1>
+                                    <input type="password" inputMode="text" placeholder="Password" required={true} onChange={(e)=>setPassword(e.target.value)}></input>
+                                </div>
+                                <div className="grid grid-rows-1 grid-cols-2 mb-5 h-fit">
+                                    <div className="flex">
+                                        <input type="checkbox" key="checkbox" required={false} className="my-auto"></input>
+                                        <h1 className="my-auto pl-5">Remember me</h1>
+                                    </div>
+                                    <a className="cursor-pointer text-right">Forgot password?</a>
+                                </div>
+
+                                <div className="mb-5">
+                                    {
+                                        providers &&
+                                        <Button
+                                            type="submit"
+                                            keyProp={Object.values(providers).at(0).name}
+                                            width="w-96"
+                                            rounded="rounded-lg"
+                                            textSize="text-xl"
+                                            isRounded={true}
+                                            name = "LOG-IN"
+                                        />
+                                    }
+                                </div>
+                            </form>
 
                         <div className="grid grid-cols-3 grid-rows-1">
                             <hr className="my-auto opacity-25"></hr>
