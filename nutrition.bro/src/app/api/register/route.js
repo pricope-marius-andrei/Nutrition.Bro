@@ -1,26 +1,22 @@
 // pages/api/auth/register.js
 import connectToDB from '@utils/database';
-import UserCredentials from '../../../models/userCredentials';
+import UserCredentials from '@models/userCredentials';
 import { NextResponse } from 'next/server';
-import mongoose from 'mongoose';
+import bcrypt from "bcrypt"
 
 export async function POST(req) {
-    const { first_name, last_name, email, password } = req.json;
+    const { first_name, last_name, email, password } = await req.json();
     try {
       await connectToDB()
-      await UserCredentials.create({first_name, last_name, email, password})
+      const hashPassword = await bcrypt.hash(password,10)
+      // console.log(hashPassword)
+      await UserCredentials.create({first_name, last_name, email, password: hashPassword})
       
       return NextResponse.json({
         msg: "The account was created",
         success : true,
-      })
+      }, {status:201})
     } catch (error) {
-      if(error instanceof mongoose.Error.ValidationError) {
-        let errorList = []
-        for(let e in error.errors)
-        {
-          errorList.push(e.message);
-        }
-      }
+      console.log(error)
     } 
 }

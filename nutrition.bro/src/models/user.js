@@ -16,6 +16,7 @@ const UserSchema = new Schema(
             type: String,
         }
     }
+    
 );
 
 const User = models.User || model("User", UserSchema) //if the User model exist in the models
