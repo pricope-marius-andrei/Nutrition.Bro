@@ -61,7 +61,7 @@ export default function LogInComponent()
             <div className="m-auto bg-white lg:w-11/12 w-screen h-screen"> {/*BG Register*/}
                 <div className="grid lg:grid-cols-2 lg:grid-rows-1 grid-cols-1 grid-rows-8 h-full p-5">
                     {/* Left BG */}
-                    <div className="grid bg-gradient-to-r from-grass-green to-dark-grass row-span-1 grid-cols-1 lg:grid-rows-6 grid-rows-2 p-10 lg:h-full h-fit w-full">
+                    <div className="grid bg-gradient-to-r from-grass-green to-dark-grass row-span-1 grid-cols-1 lg:grid-rows-6 grid-rows-2 lg:pl-8 lg:pt-5 p-10 lg:h-full h-fit w-full">
                         <div className="font-fredoka-medium flex lg:text-left lg:row-span-1 row-span-full text-white h-fit w-full ">
                             <a onClick={()=>router.push("/")} className="cursor-pointer"><AiFillHome size={30}/></a>
                         </div>
@@ -70,19 +70,19 @@ export default function LogInComponent()
                         </div>
                     </div>
                     {/* Right FORM */}
-                    <div className="grid h-full grid-cols-1 grid-rows-6 p-10 m-auto w-full"> 
+                    <div className="grid h-full grid-cols-1 pr-3 pt-3 m-auto w-full"> 
                         <div className="text-right text-dark-grass font-fredoka-medium lg:h-fit w-full">
                             <a onClick={() => {router.push("/sign-up")}} className="cursor-pointer">SWITCH TO SIGN-UP</a>
                         </div>
-                        <div className="row-span-5 w-fit m-auto">
+                        <div className="w-fit m-auto">
                             <form onSubmit={handleRegister}>
                                 <div>
-                                    <h1>Email</h1>
+                                    <h1 className="text-sm font-fredoka-medium">Email</h1>
                                     <input type="text" inputMode="text" key="email" placeholder="Email" required={true} onChange={(e)=>setEmail(e.target.value)}></input>
                                 </div>
 
                                 <div>
-                                    <h1>Password</h1>
+                                    <h1 className="text-sm font-fredoka-medium">Password</h1>
                                     <input type="password" inputMode="text" placeholder="Password" required={true} onChange={(e)=>setPassword(e.target.value)}></input>
                                 </div>
                                 <div className="grid grid-rows-1 grid-cols-2 mb-5 h-fit">

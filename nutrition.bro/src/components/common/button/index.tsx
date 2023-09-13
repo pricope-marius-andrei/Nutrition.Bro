@@ -8,7 +8,7 @@ export default function Button(props:any) {
     //set the style of the button
     let classNameProp = !props.isTransparent ? 
     "flex bg-gradient-to-r px-5 from-grass-green to-dark-grass py-4 text-white font-fredoka-medium " :
-    "flex pt-4 pb-3 px-5 text-black font-fredoka-regular ";
+    "flex pt-4 pb-4 px-5 text-black font-fredoka-regular ";
 
     // //set the width of the button
     classNameProp += props.width ? props.width + " " : "w-64 "
@@ -16,7 +16,7 @@ export default function Button(props:any) {
     //set rounded value for the button
     classNameProp += props.isRounded ? props.rounded ? props.rounded + " " : "rounded-3xl " : "h-24 "
 
-    classNameProp += props.textSize ? props.textSize : "text-2xl "
+    classNameProp += props.textSize ? props.textSize : "text-xl "
 
     let url = props.url
 
