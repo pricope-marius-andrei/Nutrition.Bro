@@ -14,6 +14,12 @@ const UserSchema = new Schema(
         },
         image: {
             type: String,
+        },
+        height: {
+            type: String
+        },
+        weight: {
+            type: String
         }
     }
     

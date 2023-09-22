@@ -51,17 +51,36 @@ const handler = NextAuth({
     secret: process.env.NEXTAUTH_SECRET,
     pages: "/log-in",
     callbacks: {
-        // async session({session}) 
-        // {
-        //         const sessionUser = await User.findOne({
-        //             email:session.user.email
-        //         })
+        async jwt({token, trigger, session, user})
+        {
+            if(trigger === "update")
+            {
+                return {...token, ...session.user}
+            }
 
-        //         session.user.id = sessionUser._id.toString();
+            return {...token, ...user}
+        },
+        async session({session}) 
+        {
+            const user = await UserCredentials.findOne({email:session.user.email});
 
-        //         return session;  
-        // }
-        // ,
+            if(!session.user.name)
+                session.user = {
+                    ...session.user,
+                    id:user?.id.toString(),
+                    name:user.first_name + " " + user.last_name ,
+                    height:user?.height ? user?.height : 0,
+                    weight:user?.weight ? user?.weight : 0
+                }
+            else 
+                session.user = {
+                    ...session.user,
+                    height:user?.height ? user?.height : 0,
+                    weight:user?.weight ? user?.weight : 0
+                }
+            return session;  
+        }
+        ,
         async signIn({profile, account})
         {
             if(account.provider === "google") {
@@ -79,7 +98,7 @@ const handler = NextAuth({
                         await User.create({
                             email: profile.email,
                             username: profile.name.replace(" ", "").replace("-","").toLowerCase(),
-                            image: profile.pictures
+                            image: profile.pictures,
                         })
                     }
                     return true;
