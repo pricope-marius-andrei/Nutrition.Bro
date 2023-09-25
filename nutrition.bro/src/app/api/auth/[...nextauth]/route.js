@@ -62,22 +62,31 @@ const handler = NextAuth({
         },
         async session({session}) 
         {
-            const user = await UserCredentials.findOne({email:session.user.email});
-
-            if(!session.user.name)
+            //Credentials session
+            if(!session.user.name) {
+                const user = await UserCredentials.findOne({email:session.user.email});
                 session.user = {
-                    ...session.user,
-                    id:user?.id.toString(),
-                    name:user.first_name + " " + user.last_name ,
-                    height:user?.height ? user?.height : 0,
-                    weight:user?.weight ? user?.weight : 0
+                ...session.user,
+                id:user?.id.toString(),
+                name:user.first_name + " " + user.last_name ,
+                height:user?.height,
+                weight:user?.weight,
+                sessionName: "Credentials"
                 }
+            }
+            //Google session
             else 
+            {
+                const user = await User.findOne({email:session.user.email});
                 session.user = {
                     ...session.user,
-                    height:user?.height ? user?.height : 0,
-                    weight:user?.weight ? user?.weight : 0
+                    measurements: {
+                        height:user?.measurements?.height,
+                        weight:user?.measurements?.weight,
+                    },
+                    sessionName: "Google"
                 }
+            }
             return session;  
         }
         ,
@@ -99,6 +108,10 @@ const handler = NextAuth({
                             email: profile.email,
                             username: profile.name.replace(" ", "").replace("-","").toLowerCase(),
                             image: profile.pictures,
+                            measurements : {
+                                height: 0,
+                                weight: 0
+                            }
                         })
                     }
                     return true;

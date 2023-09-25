@@ -15,14 +15,15 @@ const UserSchema = new Schema(
         image: {
             type: String,
         },
-        height: {
-            type: String
+        measurements : {
+            height: {
+                type: Number
+            },
+            weight: {
+                type: Number
+            },
         },
-        weight: {
-            type: String
-        }
     }
-    
 );
 
 const User = models.User || model("User", UserSchema) //if the User model exist in the models

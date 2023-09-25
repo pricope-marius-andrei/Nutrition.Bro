@@ -10,8 +10,8 @@ export async function PUT(req) {
     try 
     {
         await connectToDB()
-        const id = await User.findOne({email:_id}).select("_id")
-        await User.findByIdAndUpdate(id, {measurements:{height, weight}})
+        const id = await UserCredentials.findOne({email:_id}).select("_id")
+        await UserCredentials.findByIdAndUpdate(id, {height, weight})
         return NextResponse.json({ message: 'User updated successfully' }, {status:200})
     } catch (error) {
         return NextResponse.json({message: "The update is unsuccesfully"}, {status: 500})

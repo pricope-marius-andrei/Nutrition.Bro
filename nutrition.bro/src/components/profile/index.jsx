@@ -9,6 +9,9 @@ import { CircularProgressbar,CircularProgressbarWithChildren, buildStyles} from 
 import 'react-circular-progressbar/dist/styles.css';
 import ProgressProvider from "../common/progress_provider";
 import ProgressBar from "@ramonak/react-progress-bar"
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
+import PopUpAddFood from "../add-food"
 
 export default function ProfileComponent()
 {
@@ -16,23 +19,27 @@ export default function ProfileComponent()
     const percentageDelay = 15;
     const {status, data} = useSession()
 
-    const heightDb = data?.user.height
-    const weightDb = data?.user.weight
-    
-    console.log(heightDb, weightDb)
+    const heightDb = data?.user.measurements?.height
+    const weightDb = data?.user.measurements?.weight
 
-    const [height, setHeight] = useState("0")
-    const [weight, setWeight] = useState("0")
+    const [height, setHeight] = useState(heightDb)
+    const [weight, setWeight] = useState(weightDb)
+
     const [updateStatus, setUpdateStatus] = useState(false)
+    const [popUpAddFood, setPopUpAddFood] = useState(false)
 
     const router = useRouter()
-    // console.log(data?.user.height)
 
     const [goalPercentage, setGoalPercentage] = useState(0);
     const [animationGoalPercentage, setAnimationGoalPercentage] = useState(0)
     const [calories, setCalories] = useState(0)
 
     const id = data?.user.email
+
+    useEffect(() => {
+        setHeight(heightDb);
+        setWeight(weightDb)
+    },[heightDb,weightDb])
 
     useEffect(() => {
         setTimeout(() => {
@@ -53,11 +60,15 @@ export default function ProfileComponent()
         setWeight(0.0)
     }
 
+    const provider = data?.user.sessionName === "Credentials" ? "updateUserCredentials" : "updateUser"
+
     const handleUpdateUser = async () => {
+
+        console.log(provider)
         try {
-          const response = await fetch('http://localhost:3000/api/updateUser', {
+          const response = await fetch(`http://localhost:3000/api/${provider}`, {
             method: 'PUT',
-            body: JSON.stringify({_id:id, height:height, weight:weight }),
+            body: JSON.stringify({_id:id, height:height, weight:weight}),
             headers: {
               'Content-Type': 'application/json',
             },
@@ -67,6 +78,7 @@ export default function ProfileComponent()
           if (response.status === 200) {
             // Handle successful update
             console.log('User updated successfully')
+            setUpdateStatus(false)
           } else {
             // Handle error
             console.error('Error updating user')
@@ -176,14 +188,14 @@ export default function ProfileComponent()
                                     <GiBodyHeight size={30}/>
                                 </div>
                                     <h1 className="m-auto ml-2">Height:</h1>
-                                <input value={height} type="text" className="ml-5 outline-none w-16" placeholder="Enter your height" onChange={(height)=>{setHeight(height.target.value); setUpdateStatus(true)}}></input>
+                                <input value={height ? height : 0} type="number" className="ml-5 outline-none w-16" placeholder="Enter your height" onChange={(height)=>{setHeight(height.target.value); setUpdateStatus(true)}}></input>
                             </div>
                             <div className="flex w-fit h-fit mt-3 pl-20">
                                 <div className="m-auto mr-0">
                                     <GiWeight size={30}/>
                                 </div>
                                     <h1 className="m-auto ml-2">Weight</h1>
-                                <input value={weight} type="text" className="ml-5 outline-none w-16" placeholder="Enter your height" onChange={(weight)=>{setWeight(weight.target.value);setUpdateStatus(true)}}></input>
+                                <input value={weight ? weight : 0} type="number" className="ml-5 outline-none w-16" placeholder="Enter your height" onChange={(weight)=>{setWeight(weight.target.value);setUpdateStatus(true)}}></input>
                             </div>
                             <hr className="mt-10 opacity-25 mx-16"></hr>
                             
@@ -286,7 +298,9 @@ export default function ProfileComponent()
                                     <div className="flex w-full h-fit justify-between">
                                         <h1 className="my-auto ml-10 font-fredoka-medium text-[#309975] text-xl">Today's list</h1>
                                         <div className="flex bg-gradient-to-tr from-green to-green-lime h-fit w-32 align-top rounded-tr-lg ml-auto">
-                                            <button className="text-center m-auto text-white font-fredoka-medium p-5" onClick={()=>{console.log("It'works")}}>Add Food</button>
+                                        <Popup trigger={<button className="text-center m-auto text-white font-fredoka-medium p-5" onClick={()=>{setPopUpAddFood(true)}}>Add Food</button>} modal nested>
+                                            <PopUpAddFood></PopUpAddFood>
+                                        </Popup>
                                         </div>
                                     </div>
                                     <div className="grid grid-cols-1 pt-10 gap-5">
