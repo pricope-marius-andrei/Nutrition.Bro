@@ -100,7 +100,7 @@ export default function ProfileComponent()
                     <a  className="flex mx-auto hover:bg-gray h-fit w-auto hover:py-4 hover:px-9 px-10 py-5 mt-5 rounded-lg" href="/">
                         <Logo></Logo>
                     </a>
-                    {/* <button className="bg-yellow p-2 mt-10 m-auto text-white font-fredoka-semi-bold" onClick={()=>signOut()}>Sign Out</button> */}
+                    <button className="bg-yellow p-2 mt-10 m-auto text-white font-fredoka-semi-bold" onClick={()=>signOut()}>Sign Out</button>
                 </div>
                 <div className="m-10 w-full">
                     <div className="flex h-fit w-full">

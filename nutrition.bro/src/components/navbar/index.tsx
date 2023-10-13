@@ -4,11 +4,10 @@ import Link from "next/link"
 import Logo from "../common/logo"
 import Button from "../common/button"
 import React,{ useState } from "react"
-import { signOut, useSession} from "next-auth/react"
+import {useSession} from "next-auth/react"
 import Hamburger from "hamburger-react"
 import useBetterMediaQuery from "../../utils/useBetterMediaQuery"
 import { useRouter } from "next/navigation"
-import { Router } from "next/router"
 
 export default function NavBar()
 {
@@ -38,7 +37,9 @@ export default function NavBar()
                                 <li className="cursor-pointer">
                                     {
                                         session?.user ?
-                                        <Button user={session?.user.name} logo={session?.user.image} isRounded={true} url="/profile" onClick={()=>router.push("profile")} name="PROFILE"/>
+                                        <div className="w-56">
+                                            <Button user={session?.user.name} logo={session?.user.image} isRounded={true} url="/profile" onClick={()=>router.push("profile")} name="PROFILE"/>
+                                        </div>
                                         :
                                         <div>
                                             <Button 

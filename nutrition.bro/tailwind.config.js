@@ -36,6 +36,13 @@ module.exports = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+        keyframes: {
+          larger: {'0%': { width: '384px' }, '50%': {width: "300px"}, '100%':{width:"384px"}},
+          // editMode: {'0%' : {border-color: }}
+        },
+        animation: {
+          larger : 'larger 1s'
+        }
     },
   },
   plugins: [],

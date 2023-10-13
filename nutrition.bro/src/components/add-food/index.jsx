@@ -1,37 +1,68 @@
 'use client'
 
-import { useState } from "react"
-import {AiOutlinePlusCircle} from "react-icons/ai"
+import { useEffect, useState } from "react"
+import {AiOutlinePlusCircle, AiOutlineSearch} from "react-icons/ai"
+import {TbEdit} from "react-icons/tb"
+import SearchBar from "@components/common/search_bar"
+import Button from "@components/common/button";
+import ProgressBar from "@ramonak/react-progress-bar"
 
 async function getNutritionalValues(query) {
-const axios = require('axios');
+    const axios = require('axios');
 
-const apiKey = '1PvMb3T5Lus0mXaRtKfjFw==n01e6GVPCY28ykv7'; // Replace with your actual API key
-// const query = 'your_query_string'; // Replace with your query string
+    const apiKey = 'OOCXpai5hE5qD1yvyzjVDxjlfSamS2Xc361m3PNa';
 
-axios({
-  method: 'GET',
-  url: `https://api.api-ninjas.com/v1/nutrition?query=${query}`,
-  headers: {
-    'X-Api-Key': apiKey,
-    'Content-Type': 'application/json',
-  },
-})
-  .then((response) => {
-    console.log(response.data);
-  })
-  .catch((error) => {
-    console.error('Error: ', error.response.data);
-  });
+    try {
+    
+        const response = await axios({
+            method: 'GET',
+            url: `https://api.api-ninjas.com/v1/nutrition?query=${query}`,
+            headers: {
+                'X-Api-Key': apiKey,
+                'Content-Type': 'application/json',
+                // 'Access-Control-Allow-Origin': 'http://localhost:3000' ,
+            },
+        })
+
+        return response.data
+
+    } catch (error) {
+        console.log(error)
+    }
+
+    
 }
-
 
 export default function PopUpAddFood() 
 {
     const [status, setStatus] = useState("none")
     const [customTab, setCustomTab] = useState("ingredients")
-    const [food, setFood] = useState("")
+    const [food, setFood] = useState('')
+    const [foodName, setFoodName] = useState('')
     const [nutritionalValues, setNutrtionalValues] = useState(null)
+    const [calories, setCalories] = useState(0)
+    const [servingSize, setServingSize] = useState(0)
+    const [protein, setProtein] = useState(0)
+    const [totalFats, setTotalFats] = useState(0)
+    const [saturatedFats, setSaturatedFats] = useState(0)
+    const [carbohydrates, setCarbohydrates] = useState(0)
+    const [fiber, setFiber] = useState(0)
+    const [cholesterol, setCholesterol] = useState(0)
+    const [potassium, setPotassium] = useState(0)
+    const [sodium, setSodium] = useState(0)
+    const [sugar, setSugar] = useState(0)
+    const [editMode, setEditMode] = useState(false)
+    const nutritionalValueProgressBarWidth = "600px"
+    const errorPrecentage = 12
+    const theSmallestEnergy = 4
+
+
+
+    if(servingSize < 0)
+    {
+        setServingSize(0)
+    }
+
     return (
         <div>
             {
@@ -51,13 +82,194 @@ export default function PopUpAddFood()
                     </button>
                 </div>
             }
-
             {
                 status === "search" &&
-                <div>
-                    <input value={food} onChange={(food)=>setFood(food.target.value)} placeholder="Search food"></input>
-                    <button onClick={()=>{getNutritionalValues(food)}}>Get Nutritional Values</button>
-                    <h1></h1>
+                <div className="w-full h-fit">
+                    <div className="grid h-auto grid-rows-1 grid-cols-2">
+                        <Button onClick={()=>{setStatus("none"), setNutrtionalValues(null), setEditMode(false)}} isTransparent={true} name="Back"/>
+                        <Button
+                            onClick=
+                            {
+                                async () => {
+                                    try {
+                                        if(food.replace(" ", "").length > 0) {
+                                            const nutritionalValues = await getNutritionalValues(food)
+                                            setFood('')
+                                            if(nutritionalValues !== undefined) {
+                                                console.log(nutritionalValues[0])
+                                                setNutrtionalValues(nutritionalValues[0])
+                                                setFoodName(nutritionalValues[0].name.slice(0,1).toUpperCase() + nutritionalValues[0].name.slice(1,nutritionalValues[0].name.length))
+                                                setCalories(nutritionalValues[0].calories)
+                                                setServingSize(nutritionalValues[0].serving_size_g)
+                                                setCarbohydrates(nutritionalValues[0].carbohydrates_total_g)
+                                                setProtein(nutritionalValues[0].protein_g)
+                                                setTotalFats(nutritionalValues[0].fat_total_g)
+                                                setSaturatedFats(nutritionalValues[0].fat_saturated_g)
+                                                setCholesterol(nutritionalValues[0].cholesterol_mg)
+                                                setFiber(nutritionalValues[0].fiber_g)
+                                                setPotassium(nutritionalValues[0].potassium_mg)
+                                                setSodium(nutritionalValues[0].sodium_mg)
+                                                setSugar(nutritionalValues[0].sugar_g)
+                                            }
+                                        }
+                                        else 
+                                        {
+                                            alert("You should write a food")
+                                        }
+                                    } catch (error) {
+                                        console.log(error)
+                                    }
+                                }
+                                
+                            }
+                            fullWidth={true} 
+                            isTransparent={food.replace(" ", "").length == 0} 
+                            name="Get Nutritional Values"/>
+                    </div>
+                    
+                    <SearchBar sizeIcon={30} food={food} setFood={setFood}></SearchBar>
+                    {
+                        nutritionalValues && nutritionalValues !== null &&    
+                        <div className="bg-white h-auto flex row-span-3 p-10">
+                            <div className="w-full grid grid-cols-6">
+                                <div className="col-span-4">
+                                    <div className="flex justify-between w-full">
+                                        {!editMode ?
+                                            <h1 className="mr-auto font-fredoka-regular text-black text-3xl">{foodName}</h1>
+                                         :
+                                            <input className="py-3 font-fredoka-regular text-black text-3xl animate-pulse focus:animate-none focus:border-dark-grass focus:rounded-lg focus:border-2 outline-none" 
+                                            onChange={(name)=>{setFoodName(name.target.value)}} 
+                                            value={foodName}></input>
+                                        }
+                                        <button onClick={()=>{setEditMode(!editMode)}}><TbEdit size={30} color="#454d66"/></button>
+                                    </div>
+                                    <div className="m-auto">
+                                        <h1 className="text-black font-fredoka-medium">{`Serving size(g)`}</h1>
+                                        <input className="outline-none text-black" onChange={(servSize)=>{setServingSize(servSize.target.value)}} value={servingSize} type="number" placeholder="Serving size"></input>
+                                    </div>
+                                    <div className="m-auto">
+                                        <h1 className="font-fredoka-medium text-black">Proteine</h1>
+                                        {!editMode ?
+                                            <ProgressBar
+                                                bgColor="#13815B"
+                                                completed={protein * servingSize / (calories !== 0 ? calories / theSmallestEnergy : 0.1) + errorPrecentage}
+                                                customLabel={`${(protein * servingSize / 100).toFixed(2)}g`}
+                                                labelSize="12px"
+                                                width={nutritionalValueProgressBarWidth}
+                                                baseBgColor="#C2C2C2"
+                                            />
+                                         :
+                                         <input className="py-3 font-fredoka-regular text-black text-md animate-pulse focus:animate-none focus:border-dark-grass focus:rounded-lg focus:border-2 outline-none"
+                                                onChange={(currentProtein)=>{let lastProtein = protein; setProtein(currentProtein.target.value); 
+                                                setCalories(calories + 4 * (currentProtein.target.value - lastProtein))}} value={protein}></input>
+                                        }
+                                    </div>
+                                    <div className="m-auto">
+                                        <h1 className="font-fredoka-medium text-black">Total Fat</h1>
+                                        { 
+                                        !editMode ? 
+                                        <ProgressBar
+                                            bgColor="#13815B"
+                                            completed={totalFats * servingSize / (calories !== 0 ? calories / theSmallestEnergy : 0.1) + errorPrecentage}
+                                            customLabel={`${(totalFats * servingSize / 100).toFixed(2)}g`}
+                                            labelSize="12px"
+                                            width={nutritionalValueProgressBarWidth}
+                                            baseBgColor="#C2C2C2"
+                                        />
+                                        :
+                                        <input className="py-3 font-fredoka-regular text-black text-md animate-pulse focus:animate-none focus:border-dark-grass focus:rounded-lg focus:border-2 outline-none" 
+                                            onChange={(currentTotalFats)=>{let lastTotalFats = totalFats; setTotalFats(currentTotalFats.target.value); setCalories(calories + 9 * (currentTotalFats.target.value - lastTotalFats))}}
+                                            value={totalFats}></input>
+                                        }
+                                    </div>
+                                    <div className="m-auto">
+                                        <h1 className="font-fredoka-medium text-black">Saturated Fat</h1>
+                                        <ProgressBar
+                                            bgColor="#13815B"
+                                            completed={saturatedFats * servingSize / (calories !== 0 ? calories / theSmallestEnergy : 0.1) + errorPrecentage}
+                                            customLabel={`${(saturatedFats * servingSize / 100).toFixed(2)}g`}
+                                            labelSize="12px"
+                                            width={nutritionalValueProgressBarWidth}
+                                            baseBgColor="#C2C2C2"
+                                        />
+                                    </div>
+                                    <div className="m-auto">
+                                        <h1 className="font-fredoka-medium text-black">Carbohydrates</h1>
+                                        <ProgressBar
+                                            bgColor="#13815B"
+                                            completed={carbohydrates * servingSize / (calories !== 0 ? calories / theSmallestEnergy : 0.1) + errorPrecentage}
+                                            customLabel={`${(carbohydrates * servingSize / 100).toFixed(2)}g`}
+                                            labelSize="12px"
+                                            width={nutritionalValueProgressBarWidth}
+                                            baseBgColor="#C2C2C2"
+                                        />
+                                    </div>
+                                    <div className="m-auto">
+                                        <h1 className="font-fredoka-medium text-black">Sugar</h1>
+                                        <ProgressBar
+                                            bgColor="#13815B"
+                                            completed={sugar * servingSize / (calories !== 0 ? calories / theSmallestEnergy : 0.1) + errorPrecentage}
+                                            customLabel={`${(sugar * servingSize / 100).toFixed(2)}g`}
+                                            labelSize="12px"
+                                            width={nutritionalValueProgressBarWidth}
+                                            baseBgColor="#C2C2C2"
+                                        />
+                                    </div>
+                                    <div className="m-auto">
+                                        <h1 className="font-fredoka-medium text-black">Fiber</h1>
+                                        <ProgressBar
+                                            bgColor="#13815B"
+                                            completed={fiber * servingSize / (calories !== 0 ? calories / theSmallestEnergy : 0.1) + errorPrecentage}
+                                            customLabel={`${(fiber * servingSize / 100).toFixed(2)}g`}
+                                            labelSize="12px"
+                                            width={nutritionalValueProgressBarWidth}
+                                            baseBgColor="#C2C2C2"
+                                        />
+                                    </div>
+                                    <div className="m-auto">
+                                        <h1 className="font-fredoka-medium text-black">Potassium</h1>
+                                        <ProgressBar
+                                            bgColor="#13815B"
+                                            completed={potassium * 0.001 * servingSize / 100 / (calories !== 0 ? calories / theSmallestEnergy : 0.1) + errorPrecentage}
+                                            customLabel={`${(potassium * servingSize / 100).toFixed(2)}mg`}
+                                            labelSize="12px"
+                                            width={nutritionalValueProgressBarWidth}
+                                            baseBgColor="#C2C2C2"
+                                        />
+                                    </div>
+                                    <div className="m-auto">
+                                        <h1 className="font-fredoka-medium text-black">Sodium</h1>
+                                        <ProgressBar
+                                            bgColor="#13815B"
+                                            completed={sodium * 0.001 * servingSize / 100 / (calories !== 0 ? calories / theSmallestEnergy : 0.1) + errorPrecentage}
+                                            customLabel={`${(sodium * servingSize / 100).toFixed(2)}mg`}
+                                            labelSize="12px"
+                                            width={nutritionalValueProgressBarWidth}
+                                            baseBgColor="#C2C2C2"
+                                        />
+                                    </div>
+                                    <div className="m-auto">
+                                        <h1 className="font-fredoka-medium text-black">Cholesterol</h1>
+                                        <ProgressBar
+                                            bgColor="#13815B"
+                                            completed={cholesterol * 0.001 * servingSize / 100 / (calories !== 0 ? calories / theSmallestEnergy: 0.1) + errorPrecentage}
+                                            customLabel={`${(cholesterol * servingSize / 100).toFixed(2)}mg`}
+                                            labelSize="12px"
+                                            width={nutritionalValueProgressBarWidth}
+                                            baseBgColor="#C2C2C2"
+                                        />
+                                    </div>
+                                </div>
+                                
+                                <div className="h-full w-full flex m-auto col-span-2">
+                                    <div className="m-auto">
+                                        <h1 className="my-auto font-fredoka-medium text-3xl text-center">Total:</h1>
+                                        <h1 className="my-auto font-fredoka-medium text-xl text-center">{`${(calories * servingSize / 100).toFixed(2)} kcal`}</h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
                 </div>
             }
 
