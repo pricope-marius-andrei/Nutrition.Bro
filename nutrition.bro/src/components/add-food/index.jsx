@@ -6,6 +6,7 @@ import {TbEdit} from "react-icons/tb"
 import SearchBar from "@components/common/search_bar"
 import Button from "@components/common/button";
 import ProgressBar from "@ramonak/react-progress-bar"
+import EditProgressBar from "@components/common/edit_prograss_bar"
 
 async function getNutritionalValues(query) {
     const axios = require('axios');
@@ -52,11 +53,9 @@ export default function PopUpAddFood()
     const [sodium, setSodium] = useState(0)
     const [sugar, setSugar] = useState(0)
     const [editMode, setEditMode] = useState(false)
-    const nutritionalValueProgressBarWidth = "600px"
+    const nutritionalValueProgressBarWidth = "400px"
     const errorPrecentage = 12
     const theSmallestEnergy = 4
-
-
 
     if(servingSize < 0)
     {
@@ -84,8 +83,8 @@ export default function PopUpAddFood()
             }
             {
                 status === "search" &&
-                <div className="w-full h-fit">
-                    <div className="grid h-auto grid-rows-1 grid-cols-2">
+                <div className="w-full h-fit p-10">
+                    <div className="grid h-auto grid-rows-1 grid-cols-2"> {/*The top section of the pop-up*/}
                         <Button onClick={()=>{setStatus("none"), setNutrtionalValues(null), setEditMode(false)}} isTransparent={true} name="Back"/>
                         <Button
                             onClick=
@@ -126,20 +125,21 @@ export default function PopUpAddFood()
                             isTransparent={food.replace(" ", "").length == 0} 
                             name="Get Nutritional Values"/>
                     </div>
-                    
                     <SearchBar sizeIcon={30} food={food} setFood={setFood}></SearchBar>
                     {
+                        /*Nutritional Values*/
                         nutritionalValues && nutritionalValues !== null &&    
-                        <div className="bg-white h-auto flex row-span-3 p-10">
-                            <div className="w-full grid grid-cols-6">
-                                <div className="col-span-4">
+                        <div className="bg-white flex h-auto row-span-3 p-10 pb-20"> {/*The whole frame*/}
+                            <div className="w-full grid grid-cols-2 gap-5"> {/* the nutritional values frame */}
+                                <div className="">
                                     <div className="flex justify-between w-full">
-                                        {!editMode ?
-                                            <h1 className="mr-auto font-fredoka-regular text-black text-3xl">{foodName}</h1>
-                                         :
-                                            <input className="py-3 font-fredoka-regular text-black text-3xl animate-pulse focus:animate-none focus:border-dark-grass focus:rounded-lg focus:border-2 outline-none" 
-                                            onChange={(name)=>{setFoodName(name.target.value)}} 
-                                            value={foodName}></input>
+                                        {
+                                            !editMode ?
+                                                <h1 className="mr-auto font-fredoka-regular text-black text-3xl">{foodName}</h1>
+                                                :
+                                                <input className="py-3 font-fredoka-regular text-black text-3xl animate-pulse focus:animate-none focus:border-dark-grass focus:rounded-lg focus:border-2 outline-none" 
+                                                onChange={(name)=>{setFoodName(name.target.value)}} 
+                                                value={foodName}></input>
                                         }
                                         <button onClick={()=>{setEditMode(!editMode)}}><TbEdit size={30} color="#454d66"/></button>
                                     </div>
@@ -149,48 +149,52 @@ export default function PopUpAddFood()
                                     </div>
                                     <div className="m-auto">
                                         <h1 className="font-fredoka-medium text-black">Proteine</h1>
-                                        {!editMode ?
-                                            <ProgressBar
-                                                bgColor="#13815B"
-                                                completed={protein * servingSize / (calories !== 0 ? calories / theSmallestEnergy : 0.1) + errorPrecentage}
-                                                customLabel={`${(protein * servingSize / 100).toFixed(2)}g`}
-                                                labelSize="12px"
-                                                width={nutritionalValueProgressBarWidth}
-                                                baseBgColor="#C2C2C2"
-                                            />
-                                         :
-                                         <input className="py-3 font-fredoka-regular text-black text-md animate-pulse focus:animate-none focus:border-dark-grass focus:rounded-lg focus:border-2 outline-none"
-                                                onChange={(currentProtein)=>{let lastProtein = protein; setProtein(currentProtein.target.value); 
-                                                setCalories(calories + 4 * (currentProtein.target.value - lastProtein))}} value={protein}></input>
-                                        }
+                                        <EditProgressBar 
+                                            editMode={editMode}
+                                            totalNutientValue={protein}
+                                            servingSize={servingSize}
+                                            smallestEnergy={theSmallestEnergy}
+                                            calories={calories}
+                                            width={nutritionalValueProgressBarWidth}
+                                            setNutritionalValue={setProtein}
+                                            setCalories={setCalories}
+                                            labelSize="12px"
+                                            error={errorPrecentage}
+                                            nutritionalParameter={4}
+                                        />
                                     </div>
                                     <div className="m-auto">
                                         <h1 className="font-fredoka-medium text-black">Total Fat</h1>
-                                        { 
-                                        !editMode ? 
-                                        <ProgressBar
-                                            bgColor="#13815B"
-                                            completed={totalFats * servingSize / (calories !== 0 ? calories / theSmallestEnergy : 0.1) + errorPrecentage}
-                                            customLabel={`${(totalFats * servingSize / 100).toFixed(2)}g`}
-                                            labelSize="12px"
+                                        <EditProgressBar 
+                                            editMode={editMode}
+                                            totalNutientValue={totalFats}
+                                            servingSize={servingSize}
+                                            smallestEnergy={theSmallestEnergy}
+                                            calories={calories}
                                             width={nutritionalValueProgressBarWidth}
-                                            baseBgColor="#C2C2C2"
-                                        />
-                                        :
-                                        <input className="py-3 font-fredoka-regular text-black text-md animate-pulse focus:animate-none focus:border-dark-grass focus:rounded-lg focus:border-2 outline-none" 
-                                            onChange={(currentTotalFats)=>{let lastTotalFats = totalFats; setTotalFats(currentTotalFats.target.value); setCalories(calories + 9 * (currentTotalFats.target.value - lastTotalFats))}}
-                                            value={totalFats}></input>
-                                        }
+                                            setNutritionalValue={setTotalFats}
+                                            setCalories={setCalories}
+                                            labelSize="12px"
+                                            error={errorPrecentage}
+                                            nutritionalParameter={9}
+                                            />
                                     </div>
                                     <div className="m-auto">
                                         <h1 className="font-fredoka-medium text-black">Saturated Fat</h1>
-                                        <ProgressBar
-                                            bgColor="#13815B"
-                                            completed={saturatedFats * servingSize / (calories !== 0 ? calories / theSmallestEnergy : 0.1) + errorPrecentage}
-                                            customLabel={`${(saturatedFats * servingSize / 100).toFixed(2)}g`}
-                                            labelSize="12px"
+                                        <EditProgressBar 
+                                            editMode={editMode}
+                                            totalNutientValue={saturatedFats}
+                                            servingSize={servingSize}
+                                            smallestEnergy={theSmallestEnergy}
+                                            calories={calories}
                                             width={nutritionalValueProgressBarWidth}
-                                            baseBgColor="#C2C2C2"
+                                            setNutritionalValue={setSaturatedFats}
+                                            setTotalFats={setTotalFats}
+                                            totalFats={totalFats}
+                                            setCalories={setCalories}
+                                            labelSize="12px"
+                                            error={errorPrecentage}
+                                            nutritionalParameter={9}
                                         />
                                     </div>
                                     <div className="m-auto">
@@ -261,7 +265,7 @@ export default function PopUpAddFood()
                                     </div>
                                 </div>
                                 
-                                <div className="h-full w-full flex m-auto col-span-2">
+                                <div className="h-full w-full flex m-auto">
                                     <div className="m-auto">
                                         <h1 className="my-auto font-fredoka-medium text-3xl text-center">Total:</h1>
                                         <h1 className="my-auto font-fredoka-medium text-xl text-center">{`${(calories * servingSize / 100).toFixed(2)} kcal`}</h1>
