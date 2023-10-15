@@ -23,6 +23,20 @@ const UserSchema = new Schema(
                 type: Number
             },
         },
+        food: [
+            {
+                name: 
+                { 
+                    type: String,
+                    required: [true, 'Name of food is required!']
+                },
+                calories: 
+                {
+                    type: Number,
+                    required: [true, 'Calories is required']
+                }
+            }
+        ],
     }
 );
 

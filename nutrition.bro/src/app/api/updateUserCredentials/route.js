@@ -1,6 +1,4 @@
-import { getSession } from "next-auth/react";
 import connectToDB from "../../../utils/database"
-import User from "@models/user";
 import { NextResponse } from "next/server";
 import UserCredentials from "@models/userCredentials";
 

@@ -299,7 +299,7 @@ export default function ProfileComponent()
                                         <h1 className="my-auto ml-10 font-fredoka-medium text-[#309975] text-xl">Today's list</h1>
                                         <div className="flex bg-gradient-to-tr from-green to-green-lime h-fit w-32 align-top rounded-tr-lg ml-auto">
                                         <Popup trigger={<button className="text-center m-auto text-white font-fredoka-medium p-5" onClick={()=>{setPopUpAddFood(true)}}>Add Food</button>} modal nested>
-                                            <PopUpAddFood></PopUpAddFood>
+                                            <PopUpAddFood dataSession={data}></PopUpAddFood>
                                         </Popup>
                                         </div>
                                     </div>
