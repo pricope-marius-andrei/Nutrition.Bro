@@ -71,6 +71,7 @@ const handler = NextAuth({
                 name:user.first_name + " " + user.last_name ,
                 height:user?.height,
                 weight:user?.weight,
+                // food:user?.food,
                 sessionName: "Credentials"
                 }
             }
@@ -83,7 +84,9 @@ const handler = NextAuth({
                     measurements: {
                         height:user?.measurements?.height,
                         weight:user?.measurements?.weight,
-                    },
+                    },       
+                    food: [] || []
+                    ,
                     sessionName: "Google"
                 }
             }
@@ -111,7 +114,8 @@ const handler = NextAuth({
                             measurements : {
                                 height: 0,
                                 weight: 0
-                            }
+                            },
+                            food: []
                         })
                     }
                     return true;

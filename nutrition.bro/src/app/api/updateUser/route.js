@@ -10,7 +10,6 @@ export async function PUT(req) {
         await connectToDB()
         const id = await User.findOne({email:_id}).select("_id")
         const user = await User.findByIdAndUpdate(id, {measurements:{height, weight}})
-        console.log(user);
         return NextResponse.json({ message: 'User updated successfully' }, {status:200})
     } catch (error) {
         return NextResponse.json({message: "The update is unsuccesfully"}, {status: 500})

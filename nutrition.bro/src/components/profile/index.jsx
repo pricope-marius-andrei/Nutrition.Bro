@@ -17,10 +17,12 @@ export default function ProfileComponent()
 {
     const [caloriesPercentage, setCaloriesPercentage]= useState(0);
     const percentageDelay = 15;
-    const {status, data} = useSession()
+    const {status, data:session} = useSession()
 
-    const heightDb = data?.user.measurements?.height
-    const weightDb = data?.user.measurements?.weight
+    const heightDb = session?.user.measurements?.height
+    const weightDb = session?.user.measurements?.weight
+    const todayFood = session?.user.food;
+    const [food, setFood] = useState(todayFood);
 
     const [height, setHeight] = useState(heightDb)
     const [weight, setWeight] = useState(weightDb)
@@ -34,12 +36,19 @@ export default function ProfileComponent()
     const [animationGoalPercentage, setAnimationGoalPercentage] = useState(0)
     const [calories, setCalories] = useState(0)
 
-    const id = data?.user.email
+    const id = session?.user.email
 
     useEffect(() => {
         setHeight(heightDb);
-        setWeight(weightDb)
-    },[heightDb,weightDb])
+        setWeight(weightDb);
+        setFood(todayFood);
+        // console.log(heightDb);
+    },[heightDb,weightDb,todayFood])
+
+    useEffect(() => {
+        // setFood(todayFood);
+        // console.log(data?.user.food);
+    },todayFood)
 
     useEffect(() => {
         setTimeout(() => {
@@ -60,7 +69,7 @@ export default function ProfileComponent()
         setWeight(0.0)
     }
 
-    const provider = data?.user.sessionName === "Credentials" ? "updateUserCredentials" : "updateUser"
+    const provider = session?.user.sessionName === "Credentials" ? "updateUserCredentials" : "updateUser"
 
     const handleUpdateUser = async () => {
 
@@ -173,8 +182,8 @@ export default function ProfileComponent()
                         <div className="bg-white h-fit w-full rounded-lg mt-5">
                             <div className="grid grid-rows-1 grid-cols-3">
                                 <div className="flex h-fit pl-20 pt-10 w-fit col-span-2">
-                                    <img className="h-24 rounded-full" src={data.user.image}></img>
-                                    <h1 className="w-72 font-fredoka-medium text-lg m-auto ml-10">{data.user.name}</h1>
+                                    <img className="h-24 rounded-full" src={session.user.image}></img>
+                                    <h1 className="w-72 font-fredoka-medium text-lg m-auto ml-10">{session.user.name}</h1>
                                 </div>
                                 {
                                     height != 0.0 && weight != 0.0 && updateStatus &&
@@ -299,23 +308,19 @@ export default function ProfileComponent()
                                         <h1 className="my-auto ml-10 font-fredoka-medium text-[#309975] text-xl">Today's list</h1>
                                         <div className="flex bg-gradient-to-tr from-green to-green-lime h-fit w-32 align-top rounded-tr-lg ml-auto">
                                         <Popup trigger={<button className="text-center m-auto text-white font-fredoka-medium p-5" onClick={()=>{setPopUpAddFood(true)}}>Add Food</button>} modal nested>
-                                            <PopUpAddFood dataSession={data}></PopUpAddFood>
+                                            <PopUpAddFood dataSession={session}></PopUpAddFood>
                                         </Popup>
                                         </div>
                                     </div>
-                                    <div className="grid grid-cols-1 pt-10 gap-5">
-                                        <div className="w-auto h-fit ml-5 mr-5 py-5 px-10 bg-white rounded-lg drop-shadow-lg">
-                                            <h1>Item1</h1>
-                                        </div>
-                                        <div className="w-auto h-fit ml-5 mr-5 py-5 px-10 bg-white rounded-lg drop-shadow-lg">
-                                            <h1>Item2</h1>
-                                        </div>
-                                        <div className="w-auto h-fit ml-5 mr-5 py-5 px-10 bg-white rounded-lg drop-shadow-lg">
-                                            <h1>Item3</h1>
-                                        </div>
-                                        <div className="w-auto h-fit ml-5 mr-5 py-5 px-10 bg-white rounded-lg drop-shadow-lg">
-                                            <h1>Item4</h1>
-                                        </div>
+                                    <div className="grid grid-cols-1 pt-10 gap-5 text-black">
+                                        {
+                                            todayFood &&
+                                            todayFood.map((food)=>{
+                                                <div className="w-auto h-fit ml-5 mr-5 py-5 px-10 bg-white rounded-lg drop-shadow-lg">
+                                                    <h1>{food.name}</h1>
+                                                </div>
+                                            })
+                                        }
                                     </div>
                                 </div>
                             </div>
