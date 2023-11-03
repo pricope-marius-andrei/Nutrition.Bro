@@ -22,6 +22,7 @@ export default function ProfileComponent()
     const heightDb = session?.user.measurements?.height
     const weightDb = session?.user.measurements?.weight
     const todayFood = session?.user.food;
+
     const [food, setFood] = useState(todayFood);
 
     const [height, setHeight] = useState(heightDb)
@@ -42,13 +43,7 @@ export default function ProfileComponent()
         setHeight(heightDb);
         setWeight(weightDb);
         setFood(todayFood);
-        // console.log(heightDb);
     },[heightDb,weightDb,todayFood])
-
-    useEffect(() => {
-        // setFood(todayFood);
-        // console.log(data?.user.food);
-    },todayFood)
 
     useEffect(() => {
         setTimeout(() => {
@@ -217,7 +212,7 @@ export default function ProfileComponent()
                             </a>
                         </div>
 
-                            <div className="grid grid-cols-1 grid-rows-2 col-span-2 gap-5">
+                            <div className="grid grid-cols-1 grid-rows-5 col-span-2 gap-5">
                                 <div className="bg-white grid h-fit w-full rounded-lg mt-5 grid-rows-5 grid-cols-1 gap-5">
                                     <div className="grid grid-cols-7 grid-rows-1 row-span-4 pt-8">
                                         <div className="flex h-auto w-auto m-auto col-span-3">
@@ -303,7 +298,7 @@ export default function ProfileComponent()
                                 </div>
                                 
                                 {/*List of aliments*/}
-                                <div className="bg-white h-full w-full rounded-lg">
+                                <div className="bg-white h-fit w-full rounded-lg row-span-4">
                                     <div className="flex w-full h-fit justify-between">
                                         <h1 className="my-auto ml-10 font-fredoka-medium text-[#309975] text-xl">Today's list</h1>
                                         <div className="flex bg-gradient-to-tr from-green to-green-lime h-fit w-32 align-top rounded-tr-lg ml-auto">
@@ -312,14 +307,15 @@ export default function ProfileComponent()
                                         </Popup>
                                         </div>
                                     </div>
-                                    <div className="grid grid-cols-1 pt-10 gap-5 text-black">
+                                    <div className="grid grid-cols-1 h-fit pb-10 pt-10 gap-2 text-black">
                                         {
+                                            // todayFood.map((food)=><div key={food._id}><h1 className="text-black">{food.name}</h1></div>)
                                             todayFood &&
-                                            todayFood.map((food)=>{
-                                                <div className="w-auto h-fit ml-5 mr-5 py-5 px-10 bg-white rounded-lg drop-shadow-lg">
-                                                    <h1>{food.name}</h1>
+                                            todayFood.map((food)=>
+                                                <div key={food._id} className="w-auto h-fit ml-5 mr-5 py-5 px-10 bg-white rounded-lg drop-shadow-lg">
+                                                    <h1 key={food._id}>{food.name}</h1>
                                                 </div>
-                                            })
+                                            )
                                         }
                                     </div>
                                 </div>

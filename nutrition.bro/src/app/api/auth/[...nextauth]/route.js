@@ -85,8 +85,21 @@ const handler = NextAuth({
                         height:user?.measurements?.height,
                         weight:user?.measurements?.weight,
                     },       
-                    food: [] || []
-                    ,
+                    food: (user?.food || []).map((foodItem)=> ({
+                        name:foodItem.name,
+                        calories:foodItem.calories,
+                        serving_size:foodItem.serving_size,
+                        protein:foodItem.protein,
+                        carbohydrates:foodItem.carbohydrates,
+                        sugar:foodItem.sugar,
+                        total_fats:foodItem.total_fats,
+                        saturated_fats:foodItem.saturated_fats,
+                        potassium:foodItem.potassium,
+                        sodium:foodItem.sodium,
+                        fiber:foodItem.fiber,
+                        cholesterol:foodItem.cholesterol,
+                        _id:foodItem._id,
+                    })),
                     sessionName: "Google"
                 }
             }
@@ -115,7 +128,7 @@ const handler = NextAuth({
                                 height: 0,
                                 weight: 0
                             },
-                            food: []
+                            food: [{}]
                         })
                     }
                     return true;
