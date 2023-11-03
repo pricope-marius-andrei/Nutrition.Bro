@@ -1,5 +1,5 @@
 import connectToDB from "../../../utils/database";
-import User from "../../../models/user"
+import UserCredentials from "../../../models/userCredentials"
 import { NextResponse } from "next/server";
 
 export async function PUT(req) {
@@ -20,8 +20,8 @@ export async function PUT(req) {
         cholesterol} = await req.json();
     try {
         connectToDB();
-        const id = await User.findOne({email:_id}).select("_id");
-        const user = await User.findByIdAndUpdate(id, {$push:{food:[{
+        const id = await UserCredentials.findOne({email:_id}).select("_id");
+        const user = await UserCredentials.findByIdAndUpdate(id, {$push:{food:[{
             name,
             calories,
             serving_size,

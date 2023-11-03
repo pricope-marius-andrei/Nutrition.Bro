@@ -58,12 +58,14 @@ export default function PopUpAddFood(props) {
   if (servingSize < 0) {
     setServingSize(0);
   }
-  // console.log(props.dataSession);
+
   const provider =
     props.dataSession?.user.sessionName === "Credentials"
       ? "updateUserFoodCredentials"
       : "updateUserFood";
   const id = props.dataSession?.user.email;
+
+  console.log(provider);
 
   const handleUpdateUser = async () => {
     console.log(provider);
@@ -233,7 +235,7 @@ export default function PopUpAddFood(props) {
                           Add Food
                         </button>
                       ) : (
-                        <div className="bg-yellow-light flex m-auto h-fit w-fit mx-2">
+                        <div className="flex m-auto h-fit w-fit mx-2">
                           <button
                             onClick={() => {
                               setEditMode(!editMode);
@@ -413,12 +415,6 @@ export default function PopUpAddFood(props) {
                         unit="mg"
                       />
                     </div>
-                    {/* {
-                                        !editMode && 
-                                        <div className="mt-3">
-                                            
-                                        </div>
-                                    } */}
                   </div>
                   <div className="h-full w-full flex m-auto">
                     <div className="m-auto">

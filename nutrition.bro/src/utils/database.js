@@ -4,7 +4,7 @@ let isConnected = false;
 
 const connectToDB = async () => {
 
-    // mongoose.set('strictQuery',true);
+    // mongoose.set//('strictQuery',true);
 
     if(isConnected)
     {
@@ -14,11 +14,12 @@ const connectToDB = async () => {
 
     try {
         await mongoose.connect(process.env.MONGODB_URI,
-        //      {
-        //     dbName: "nutrition_bro_users",
-        //     useNewUrlParser: true,
-        //     useUnifiedTopology: true
-        // }
+             {
+            //     socketTimeoutMS: 60000,
+            // dbName: "nutrition_bro_users",
+            // useNewUrlParser: true,
+            // useUnifiedTopology: true
+        }
         )
 
         isConnected = true;

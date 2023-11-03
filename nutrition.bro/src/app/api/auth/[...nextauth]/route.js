@@ -7,7 +7,6 @@ import UserCredentials from "@models/userCredentials"
 import bcrypt from "bcrypt"
 
 const handler = NextAuth({
-    
     session: {
         strategy: "jwt"
     },
@@ -23,7 +22,7 @@ const handler = NextAuth({
             
                 if(!credentials.email || !credentials.password)
                 {
-                        throw new Error('Please enter an email and password')
+                    throw new Error('Please enter an email and password')
                 }
                 const user = await UserCredentials.findOne({email:credentials.email});
 
@@ -66,13 +65,30 @@ const handler = NextAuth({
             if(!session.user.name) {
                 const user = await UserCredentials.findOne({email:session.user.email});
                 session.user = {
-                ...session.user,
-                id:user?.id.toString(),
-                name:user.first_name + " " + user.last_name ,
-                height:user?.height,
-                weight:user?.weight,
-                // food:user?.food,
-                sessionName: "Credentials"
+                    ...session.user,
+                    id:user?.id.toString(),
+                    _name:user?.first_name + " " + user?.last_name,
+                    measurements: {
+                        height:user?.measurements?.height,
+                        weight:user?.measurements?.weight,
+                    },       
+                    food: (user?.food || []).map((foodItem)=> ({
+                        name:foodItem.name,
+                        calories:foodItem.calories,
+                        serving_size:foodItem.serving_size,
+                        protein:foodItem.protein,
+                        carbohydrates:foodItem.carbohydrates,
+                        sugar:foodItem.sugar,
+                        total_fats:foodItem.total_fats,
+                        saturated_fats:foodItem.saturated_fats,
+                        potassium:foodItem.potassium,
+                        sodium:foodItem.sodium,
+                        fiber:foodItem.fiber,
+                        cholesterol:foodItem.cholesterol,
+                        _id:foodItem._id,
+                    })),
+                    caloriesGoal: user?.caloriesGoal,
+                    sessionName: "Credentials"
                 }
             }
             //Google session
@@ -100,6 +116,7 @@ const handler = NextAuth({
                         cholesterol:foodItem.cholesterol,
                         _id:foodItem._id,
                     })),
+                    caloriesGoal: user?.caloriesGoal,
                     sessionName: "Google"
                 }
             }
@@ -138,7 +155,7 @@ const handler = NextAuth({
                 }
             }
             else if(account.provider === "credentials") {
-                return true
+                return true;
             }
         }
     }

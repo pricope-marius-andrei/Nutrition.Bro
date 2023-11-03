@@ -87,6 +87,9 @@ const UserSchema = new Schema(
                 }
             }
         ],
+        caloriesGoal : {
+            type: Number
+        }
     }
 );
 

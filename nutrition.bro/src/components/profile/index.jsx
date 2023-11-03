@@ -13,11 +13,41 @@ import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import PopUpAddFood from "../add-food"
 
+function getTotalCalories(foods)
+{
+    let total_calories = 0;
+    foods.map(food => {total_calories += food.calories});
+    return total_calories.toFixed(2);
+}
+
+function getTotalFats(foods)
+{
+    let total_fats = 0;
+    foods.map(food => {total_fats += food.total_fats});
+    return total_fats.toFixed(2);
+}
+
+function getTotalProtein(foods)
+{
+    let total_protein = 0;
+    foods.map(food => {total_protein += food.protein});
+    return total_protein.toFixed(2);
+}
+
+function getTotalCarbo(foods)
+{
+    let total_carbo = 0;
+    foods.map(food => {total_carbo += food.carbohydrates});
+    return total_carbo.toFixed(2);
+}
+
 export default function ProfileComponent()
 {
     const [caloriesPercentage, setCaloriesPercentage]= useState(0);
     const percentageDelay = 15;
     const {status, data:session} = useSession()
+
+    console.log(session);
 
     const heightDb = session?.user.measurements?.height
     const weightDb = session?.user.measurements?.weight
@@ -38,6 +68,7 @@ export default function ProfileComponent()
     const [calories, setCalories] = useState(0)
 
     const id = session?.user.email
+
 
     useEffect(() => {
         setHeight(heightDb);
@@ -63,41 +94,49 @@ export default function ProfileComponent()
     {
         setWeight(0.0)
     }
-
+    
     const provider = session?.user.sessionName === "Credentials" ? "updateUserCredentials" : "updateUser"
-
+    
     const handleUpdateUser = async () => {
-
         console.log(provider)
+
+        console.log(session?.user.measurements?.height);
+        
         try {
-          const response = await fetch(`http://localhost:3000/api/${provider}`, {
-            method: 'PUT',
-            body: JSON.stringify({_id:id, height:height, weight:weight}),
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          })
-
-    
-          if (response.status === 200) {
-            // Handle successful update
-            console.log('User updated successfully')
-            setUpdateStatus(false)
-          } else {
-            // Handle error
-            console.error('Error updating user')
-          }
+            const response = await fetch(`http://localhost:3000/api/${provider}`, {
+                method: 'PUT',
+                body: JSON.stringify({_id:id, height:height, weight:weight}),
+                headers: {
+                },
+                'Content-Type': 'application/json',
+            })
+            
+            
+            if (response.status === 200) {
+                // Handle successful update
+                console.log('User updated successfully')
+                setUpdateStatus(false)
+            } else {
+                // Handle error
+                console.error('Error updating user')
+            }
         } catch (error) {
-          console.error('Error updating user', error)
+            console.error('Error updating user', error)
         }
-      }
+    }
     
-
+    
     useEffect(()=>{
         if(status === "unauthenticated") router.push("/sign-up");
     }, [status])
-
+    
     if(status === "authenticated") {
+
+        const total_calories = getTotalCalories(todayFood);
+        const total_fats = getTotalFats(todayFood);
+        const total_protein = getTotalProtein(todayFood);
+        const total_carbo = getTotalCarbo(todayFood);
+
         return( 
             <div className="bg-[#EAEAEA] h-full w-full flex">
                 <div className="flex h-auto bg-white w-36">
@@ -157,7 +196,6 @@ export default function ProfileComponent()
                                             },
                                             
                                         }
-                                        
                                         } />
                                     }
                                     </ProgressProvider>
@@ -170,7 +208,9 @@ export default function ProfileComponent()
                         
                         </div>
                         <div className="flex bg-white px-10 rounded-e-lg text-center align-middle">
-                            <button><AiFillEdit size={30}/></button>
+                            <Popup trigger={<button><AiFillEdit size={30}/></button>} nested modal>
+                                <PopUpAddFood dataSession={session}></PopUpAddFood>
+                            </Popup>
                         </div>
                     </div>
                     <div className="grid grid-cols-3 grid-rows-1 gap-5">
@@ -178,7 +218,7 @@ export default function ProfileComponent()
                             <div className="grid grid-rows-1 grid-cols-3">
                                 <div className="flex h-fit pl-20 pt-10 w-fit col-span-2">
                                     <img className="h-24 rounded-full" src={session.user.image}></img>
-                                    <h1 className="w-72 font-fredoka-medium text-lg m-auto ml-10">{session.user.name}</h1>
+                                    <h1 className="w-72 font-fredoka-medium text-lg m-auto ml-10">{session.user._name}</h1>
                                 </div>
                                 {
                                     height != 0.0 && weight != 0.0 && updateStatus &&
@@ -198,7 +238,7 @@ export default function ProfileComponent()
                                 <div className="m-auto mr-0">
                                     <GiWeight size={30}/>
                                 </div>
-                                    <h1 className="m-auto ml-2">Weight</h1>
+                                    <h1 className="m-auto ml-2">Weight:</h1>
                                 <input value={weight ? weight : 0} type="number" className="ml-5 outline-none w-16" placeholder="Enter your height" onChange={(weight)=>{setWeight(weight.target.value);setUpdateStatus(true)}}></input>
                             </div>
                             <hr className="mt-10 opacity-25 mx-16"></hr>
@@ -217,7 +257,7 @@ export default function ProfileComponent()
                                     <div className="grid grid-cols-7 grid-rows-1 row-span-4 pt-8">
                                         <div className="flex h-auto w-auto m-auto col-span-3">
                                             <div className="lg:h-auto lg:w-auto h-48 w-48">
-                                                <CircularProgressbarWithChildren className="mx-auto" value={caloriesPercentage} styles={
+                                                <CircularProgressbarWithChildren className="mx-auto" value={total_calories * 100 / 2000} styles={
                                                 {   
                                                     root: {},
                                                     // Customize the path, i.e. the "completed progress"
@@ -248,18 +288,19 @@ export default function ProfileComponent()
                                                     }
                                                 }>
                                                     <div className="grid grid-rows-2 grid-cols-1 font-fredoka-regular mt-10 w-fit h-fit">
-                                                        <span className="font-fredoka-medium text-center text-5xl">{calories}</span> <span className="text-center text-2xl text-black opacity-50">kcal</span>
+                                                        <span className="font-fredoka-medium text-center text-5xl">{total_calories}</span>
+                                                        <span className="text-center text-2xl text-black opacity-50">kcal</span>
                                                     </div>
                                                 </CircularProgressbarWithChildren>
                                             </div>
                                         </div>
                                         <div className="grid grid-rows-3 grid-cols-1 col-span-4 row-span-2">
                                             <div className="m-auto">
-                                                <h1 className="font-fredoka-medium text-black">Proteine</h1>
+                                                <h1 className="font-fredoka-medium text-black">Protein</h1>
                                                 <ProgressBar
                                                     bgColor="#13815B"
-                                                    completed={0}
-                                                    // customLabel={`120 grams`}
+                                                    completed={parseFloat(total_protein) * 4 * 100 / parseFloat(total_calories)}
+                                                    customLabel={`${total_protein}g`}
                                                     width="500px"
                                                     baseBgColor="#C2C2C2"
                                                 />
@@ -268,8 +309,8 @@ export default function ProfileComponent()
                                                 <h1 className="font-fredoka-medium text-black">Carbohydrates</h1>
                                                 <ProgressBar
                                                     bgColor="#EFEEB4"
-                                                    completed={0}
-                                                    // customLabel={`2000 grams`}
+                                                    completed={parseFloat(total_carbo) * 4 * 100 / parseFloat(total_calories)}
+                                                    customLabel={`${total_carbo}g`}
                                                     labelColor="#454d66"
                                                     width="500px"
                                                     baseBgColor="#C2C2C2"
@@ -279,8 +320,8 @@ export default function ProfileComponent()
                                                 <h1 className="font-fredoka-medium text-black">Fats</h1>
                                                 <ProgressBar
                                                     bgColor="#58B368"
-                                                    completed={0}
-                                                    // customLabel={`20 grams`}
+                                                    completed={parseFloat(total_fats) * 9 * 100 / parseFloat(total_calories)}
+                                                    customLabel={`${total_fats}g`}
                                                     width="500px"
                                                     baseBgColor="#C2C2C2"
                                                 />
@@ -309,7 +350,6 @@ export default function ProfileComponent()
                                     </div>
                                     <div className="grid grid-cols-1 h-fit pb-10 pt-10 gap-2 text-black">
                                         {
-                                            // todayFood.map((food)=><div key={food._id}><h1 className="text-black">{food.name}</h1></div>)
                                             todayFood &&
                                             todayFood.map((food)=>
                                                 <div key={food._id} className="w-auto h-fit ml-5 mr-5 py-5 px-10 bg-white rounded-lg drop-shadow-lg">

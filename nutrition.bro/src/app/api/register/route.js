@@ -10,7 +10,19 @@ export async function POST(req) {
       await connectToDB()
       const hashPassword = await bcrypt.hash(password,10)
       // console.log(hashPassword)
-      await UserCredentials.create({first_name, last_name, email, password: hashPassword})
+      await UserCredentials.create(
+      {
+        first_name, 
+        last_name, 
+        email, 
+        password: hashPassword,
+        measurements : {
+          height: 0,
+          weight: 0
+        },
+        food: [{}] ,
+        caloriesGoal : 0,
+      })
       
       return NextResponse.json({
         msg: "The account was created",

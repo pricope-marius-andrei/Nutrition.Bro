@@ -9,7 +9,7 @@ export async function PUT(req) {
     {
         await connectToDB()
         const id = await UserCredentials.findOne({email:_id}).select("_id")
-        await UserCredentials.findByIdAndUpdate(id, {height, weight})
+        await UserCredentials.findByIdAndUpdate(id, {measurements:{height, weight}})
         return NextResponse.json({ message: 'User updated successfully' }, {status:200})
     } catch (error) {
         return NextResponse.json({message: "The update is unsuccesfully"}, {status: 500})
