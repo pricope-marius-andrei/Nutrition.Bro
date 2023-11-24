@@ -123,9 +123,8 @@ export default function SignUpComponent()
                                         <Button
                                             type="submit"
                                             keyProp={Object.values(providers).at(0).name}
-                                            width="w-96"
+                                            fullWidth={true}
                                             rounded="rounded-lg"
-                                            textSize="text-xl"
                                             isRounded={true}
                                             name = "SIGN-UP"
                                         />
@@ -143,16 +142,15 @@ export default function SignUpComponent()
                                 {
                                     providers && 
                                     <Button
-                                    user={Object.values(providers).at(1).name}
-                                    width="w-96"
-                                    rounded="rounded-lg"
-                                    textSize="text-lg"
-                                    isTransparent={true}
-                                    logo={google}
-                                    keyProp={Object.values(providers).at(1).name}
-                                    onClick={()=>signIn()}
-                                    isRounded={true}
-                                    name="Sign-up with Google"
+                                        user={Object.values(providers).at(1).name}
+                                        fullWidth={true}
+                                        rounded="rounded-lg"
+                                        isTransparent={true}
+                                        logo={google}
+                                        keyProp={Object.values(providers).at(1).name}
+                                        onClick={()=>signIn()}
+                                        isRounded={true}
+                                        name="Sign-up with Google"
                                     />
                                 }   
                             </div>

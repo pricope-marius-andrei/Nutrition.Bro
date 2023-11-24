@@ -20,7 +20,7 @@ export default function NavBar()
     const isPhone = useBetterMediaQuery('(min-width: 720px')
 
     return (
-        <nav className="flex py-6 bg-white lg:bg-opacity-90 backdrop-blur-sm drop-shadow-sm sticky top-0 place-content-between">
+        <nav className="flex py-5 text-sm bg-white drop-shadow-sm sticky top-0 justify-between">
             <Link href="/" className="top my-auto pl-20">
                 {isPhone ? <Logo style="with-text"/> : <Logo/>}
             </Link>
@@ -29,15 +29,15 @@ export default function NavBar()
                 <span className="top place-content-center lg:hidden flex"><Hamburger color="#454d66" toggled={hamburgerStatus} toggle={setHamburger}/></span>        
                 {(isDesktopOrLaptop || hamburgerStatus) 
                     && 
-                        <ul className="bg-white lg:flex lg:my-auto lg:bg-opacity-0 lg:relative lg:mr-20 lg:items-center lg:h-0 lg:p-2 lg:space-x-10 lg:text-lg p-4 text-xl absolute justify-center text-center font-fredoka-light w-fit mt-20 top-0 right-0 text-black">
-                            <Link href="/"><li className="cursor-pointer">HOME</li></Link>
+                        <ul className="bg-white lg:flex lg:my-auto lg:bg-opacity-0 lg:relative lg:mr-20 lg:items-center lg:h-0 lg:p-2 lg:space-x-10 p-4 absolute justify-center text-center font-fredoka-light w-fit mt-20 top-0 right-0 text-black">
+                            {/* <Link href="/"><li className="cursor-pointer">HOME</li></Link>
                             <Link href="/"><li className="cursor-pointer">FOOD</li></Link>
-                            <Link href="blogs"><li className="cursor-pointer">BLOGS</li></Link>
+                            <Link href="blogs"><li className="cursor-pointer">BLOGS</li></Link> */}
                             <Link href="/">
                                 <li className="cursor-pointer">
                                     {
                                         session?.user ?
-                                        <div className="w-56">
+                                        <div>
                                             <Button user={session?.user.name} logo={session?.user.image} isRounded={true} url="/profile" onClick={()=>router.push("profile")} name="PROFILE"/>
                                         </div>
                                         :
