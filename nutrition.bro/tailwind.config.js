@@ -6,9 +6,14 @@ module.exports = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    heroPatternsShades: ["100", "500"],
+    heroPatternsColors: ["green-lime", "grass-green"],
+    heroPatternsOpacities: ['0', '10', '50', '90', '100'],
+  },
+  theme: {
     screens: {
       'lg': '1280px',
-      'md': '1000px',
+      'md': '800px',
       'sm': '720px',
     },
     fontFamily:{
@@ -34,7 +39,7 @@ module.exports = {
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
         keyframes: {
           larger: {'0%': { width: '384px' }, '50%': {width: "300px"}, '100%':{width:"384px"}},
@@ -45,5 +50,7 @@ module.exports = {
         }
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwindcss-hero-patterns'),
+  ],
 }

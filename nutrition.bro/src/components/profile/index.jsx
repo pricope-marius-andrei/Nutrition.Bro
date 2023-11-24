@@ -99,7 +99,7 @@ export default function ProfileComponent()
 
     if(status === "authenticated") {
         return( 
-            <div className="bg-[#EAEAEA] h-full w-full flex">
+            <div className="bg-[#EAEAEA] h-full w-full flex heropattern-ilikefood-green-lime/10">
                 <div className="flex h-auto bg-white w-36">
                     <a  className="flex mx-auto hover:bg-gray h-fit w-auto hover:py-4 hover:px-9 px-10 py-5 mt-5 rounded-lg" href="/">
                         <Logo></Logo>
