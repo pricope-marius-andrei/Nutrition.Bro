@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { AiOutlinePlusCircle, AiOutlineSearch } from "react-icons/ai";
+import { AiOutlinePlusCircle, AiOutlineBarChart, AiOutlineArrowLeft   } from "react-icons/ai";
 import { TbEdit } from "react-icons/tb";
 import SearchBar from "@components/common/search_bar";
 import Button from "@components/common/button";
@@ -48,7 +48,8 @@ export default function PopUpAddFood(props) {
   const [sodium, setSodium] = useState(0);
   const [sugar, setSugar] = useState(0);
   const [editMode, setEditMode] = useState(false);
-  const nutritionalValueProgressBarWidth = "400px";
+  const nutritionalValueProgressBarWidth = "100%";
+  const labelSizeProgressBar = "50%";
   const errorPrecentage = 12;
   const theSmallestEnergy = 4;
   const successful = "successful";
@@ -108,92 +109,92 @@ export default function PopUpAddFood(props) {
   return (
     <div>
       {status === "none" && (
-        <div className="bg-gray h-96 w-auto grid grid-rows-1 grid-cols-2 gap-5 p-16">
-          <button
-            className="bg-white hover:bg-gray rounded-lg drop-shadow-md"
-            onClick={() => setStatus("search")}
-          >
-            <div className="m-auto">
-              <img className="h-36 m-auto" src="./icons/logo.svg"></img>
-              <h1 className="font-fredoka-medium text-lg text-black mt-2">
-                Search Food
-              </h1>
-            </div>
-          </button>
-          <button
-            className="bg-white hover:bg-gray rounded-lg drop-shadow-md"
-            onClick={() => setStatus("custom")}
-          >
-            <div className="m-auto">
-              <img className="h-36 m-auto" src="./icons/logo.svg"></img>
-              <h1 className="font-fredoka-medium text-lg text-black mt-2">
-                Custom Meal
-              </h1>
-            </div>
-          </button>
+        <div className="bg-gray h-96 w-full grid lg:grid-rows-1 grid-rows-2 lg:grid-cols-2 grid-cols-1 gap-5 p-16 heropattern-ilikefood-green/10">
+          <div className="flex justify-center">
+            <button
+              className=" bg-white hover:bg-gray rounded-lg drop-shadow-md w-fit"
+              onClick={() => setStatus("search")}
+            >
+              <div className="m-auto md:px-10">
+                <img className="lg:h-48 h-32 m-auto" src="./icons/logo.svg"></img>
+                <h1 className="lg:flex hidden font-fredoka-medium text-lg text-black mt-2 justify-center">
+                  Search Food
+                </h1>
+              </div>
+            </button>
+          </div>
+          <div className="flex justify-center">
+            <button
+              className="flex justify-center bg-white hover:bg-gray rounded-lg drop-shadow-md w-fit"
+              onClick={() => setStatus("custom")}
+            >
+              <div className="m-auto md:px-10">
+                <img className="lg:h-48 h-32 m-auto" src="./icons/logo.svg"></img>
+                <h1 className="lg:flex hidden font-fredoka-medium text-lg text-black mt-2 justify-center">
+                  Custom Meal
+                </h1>
+              </div>
+            </button>
+          </div>
         </div>
       )}
       {status === "search" && (
-        <div className="w-full h-fit p-10">
-          <div className="grid h-auto grid-rows-1 grid-cols-2">
-            {" "}
-            {/*The top section of the pop-up*/}
-            <Button
-              onClick={() => {
-                  setFoodSent("none"),
-                  setNutrtionalValues(null),
-                  setEditMode(false);
-              }}
-              isTransparent={true}
-              name="Back"
-            />
-            <Button
-              onClick={async () => {
-                try {
-                  if (food.replace(" ", "").length > 0) {
-                    const nutritionalValues = await getNutritionalValues(food);
-                    setFood("");
-                    if (nutritionalValues !== undefined) {
-                      console.log(nutritionalValues[0]);
-                      setNutrtionalValues(nutritionalValues[0]);
-                      setFoodName(
-                        nutritionalValues[0].name.slice(0, 1).toUpperCase() +
-                          nutritionalValues[0].name.slice(
-                            1,
-                            nutritionalValues[0].name.length
-                          )
-                      );
-                      setCalories(nutritionalValues[0].calories);
-                      setServingSize(nutritionalValues[0].serving_size_g);
-                      setCarbohydrates(
-                        nutritionalValues[0].carbohydrates_total_g
-                      );
-                      setProtein(nutritionalValues[0].protein_g);
-                      setTotalFats(nutritionalValues[0].fat_total_g);
-                      setSaturatedFats(nutritionalValues[0].fat_saturated_g);
-                      setCholesterol(nutritionalValues[0].cholesterol_mg);
-                      setFiber(nutritionalValues[0].fiber_g);
-                      setPotassium(nutritionalValues[0].potassium_mg);
-                      setSodium(nutritionalValues[0].sodium_mg);
-                      setSugar(nutritionalValues[0].sugar_g);
+        <div className="w-full h-fit p-10 rounded-lg">
+          <div className="lg:grid lg:grid-rows-1 lg:grid-cols-6 flex sm:flex-row flex-col sm:justify-around items-center">
+            <button className="flex justify-center hover:bg-gray p-5 rounded-lg order-1 w-fit" onClick={()=> {
+              setStatus("none");
+              setNutrtionalValues(null);
+            }}><AiOutlineArrowLeft size={30}/></button>
+            <div className="col-span-4 lg:order-2 order-3">
+              <SearchBar sizeIcon={30} food={food} setFood={setFood}></SearchBar>
+            </div>
+              {
+                <button
+                onClick={async () => {
+                  try {
+                    if (food.replace(" ", "").length > 0) {
+                      const nutritionalValues = await getNutritionalValues(food);
+                      setFood("");
+                      if (nutritionalValues !== undefined) {
+                        console.log(nutritionalValues[0]);
+                        setNutrtionalValues(nutritionalValues[0]);
+                        setFoodName(
+                          nutritionalValues[0].name.slice(0, 1).toUpperCase() +
+                            nutritionalValues[0].name.slice(
+                              1,
+                              nutritionalValues[0].name.length
+                            )
+                        );
+                        setCalories(nutritionalValues[0].calories);
+                        setServingSize(nutritionalValues[0].serving_size_g);
+                        setCarbohydrates(
+                          nutritionalValues[0].carbohydrates_total_g
+                        );
+                        setProtein(nutritionalValues[0].protein_g);
+                        setTotalFats(nutritionalValues[0].fat_total_g);
+                        setSaturatedFats(nutritionalValues[0].fat_saturated_g);
+                        setCholesterol(nutritionalValues[0].cholesterol_mg);
+                        setFiber(nutritionalValues[0].fiber_g);
+                        setPotassium(nutritionalValues[0].potassium_mg);
+                        setSodium(nutritionalValues[0].sodium_mg);
+                        setSugar(nutritionalValues[0].sugar_g);
+                      }
+                    } else {
+                      alert("You should write a food");
                     }
-                  } else {
-                    alert("You should write a food");
+                  } catch (error) {
+                    console.log(error);
                   }
-                } catch (error) {
-                  console.log(error);
-                }
-              }}
-              fullWidth={true}
-              isTransparent={food.replace(" ", "").length == 0}
-              name="Get Nutritional Values"
-            />
+                }}
+                className={`flex justify-center lg:order-3 order-2 p-5 w-fit ${food != '' ? "bg-gradient-to-r from-green to-grass-green" : "bg-transparent"} rounded-lg`} 
+              >
+                <AiOutlineBarChart color={food == '' || food == null ? "black" : "white"} size={30}/>
+              </button>}
           </div>
-          <SearchBar sizeIcon={30} food={food} setFood={setFood}></SearchBar>
           {
             /*Nutritional Values*/
             nutritionalValues && nutritionalValues !== null && (
-              <div className="bg-white flex h-auto row-span-3 p-10 pb-20">
+              <div className="flex bg-white heropattern-ilikefood-green/10 h-auto row-span-3 p-10 pb-20">
                 {" "}
                 {/*The whole frame*/}
                 <div className="w-full grid grid-cols-2 gap-5">
@@ -233,7 +234,7 @@ export default function PopUpAddFood(props) {
                           Add Food
                         </button>
                       ) : (
-                        <div className="bg-yellow-light flex m-auto h-fit w-fit mx-2">
+                        <div className="flex m-auto h-fit w-fit mx-2">
                           <button
                             onClick={() => {
                               setEditMode(!editMode);
@@ -257,7 +258,7 @@ export default function PopUpAddFood(props) {
                         width={nutritionalValueProgressBarWidth}
                         setNutritionalValue={setProtein}
                         setCalories={setCalories}
-                        labelSize="12px"
+                        labelSize={labelSizeProgressBar}
                         error={errorPrecentage}
                         nutritionalParameter={4}
                         unit="g"
@@ -276,7 +277,7 @@ export default function PopUpAddFood(props) {
                         width={nutritionalValueProgressBarWidth}
                         setNutritionalValue={setTotalFats}
                         setCalories={setCalories}
-                        labelSize="12px"
+                        labelSize={labelSizeProgressBar}
                         error={errorPrecentage}
                         nutritionalParameter={9}
                         unit="g"
@@ -297,7 +298,7 @@ export default function PopUpAddFood(props) {
                         setTotalFats={setTotalFats}
                         totalFats={totalFats}
                         setCalories={setCalories}
-                        labelSize="12px"
+                        labelSize={labelSizeProgressBar}
                         error={errorPrecentage}
                         nutritionalParameter={9}
                         unit="g"
@@ -316,7 +317,7 @@ export default function PopUpAddFood(props) {
                         width={nutritionalValueProgressBarWidth}
                         setNutritionalValue={setCarbohydrates}
                         setCalories={setCalories}
-                        labelSize="12px"
+                        labelSize={labelSizeProgressBar}
                         error={errorPrecentage}
                         nutritionalParameter={4}
                         unit="g"
@@ -335,7 +336,7 @@ export default function PopUpAddFood(props) {
                         setTotalCarbohydrates={setCarbohydrates}
                         totalCarbohydrates={carbohydrates}
                         setCalories={setCalories}
-                        labelSize="12px"
+                        labelSize={labelSizeProgressBar}
                         error={errorPrecentage}
                         nutritionalParameter={4}
                         unit="g"
@@ -352,7 +353,7 @@ export default function PopUpAddFood(props) {
                         width={nutritionalValueProgressBarWidth}
                         setNutritionalValue={setFiber}
                         setCalories={setCalories}
-                        labelSize="12px"
+                        labelSize={labelSizeProgressBar}
                         error={errorPrecentage}
                         nutritionalParameter={0}
                         unit="g"
@@ -371,7 +372,7 @@ export default function PopUpAddFood(props) {
                         width={nutritionalValueProgressBarWidth}
                         setNutritionalValue={setPotassium}
                         setCalories={setCalories}
-                        labelSize="12px"
+                        labelSize={labelSizeProgressBar}
                         error={errorPrecentage}
                         nutritionalParameter={0}
                         unit="mg"
@@ -388,7 +389,7 @@ export default function PopUpAddFood(props) {
                         width={nutritionalValueProgressBarWidth}
                         setNutritionalValue={setSodium}
                         setCalories={setCalories}
-                        labelSize="12px"
+                        labelSize={labelSizeProgressBar}
                         error={errorPrecentage}
                         nutritionalParameter={0}
                         unit="mg"
@@ -407,18 +408,12 @@ export default function PopUpAddFood(props) {
                         width={nutritionalValueProgressBarWidth}
                         setNutritionalValue={setCholesterol}
                         setCalories={setCalories}
-                        labelSize="12px"
+                        labelSize={labelSizeProgressBar}
                         error={errorPrecentage}
                         nutritionalParameter={0}
                         unit="mg"
                       />
                     </div>
-                    {/* {
-                                        !editMode && 
-                                        <div className="mt-3">
-                                            
-                                        </div>
-                                    } */}
                   </div>
                   <div className="h-full w-full flex m-auto">
                     <div className="m-auto">

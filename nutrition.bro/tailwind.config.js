@@ -42,7 +42,7 @@ module.exports = {
         'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
         keyframes: {
-          larger: {'0%': { width: '384px' }, '50%': {width: "300px"}, '100%':{width:"384px"}},
+          larger: {'0%': { width: '256px' }, '50%': {width: "200px"}, '100%':{width:"256px"}},
           // editMode: {'0%' : {border-color: }}
         },
         animation: {
