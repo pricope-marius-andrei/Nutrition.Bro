@@ -9,10 +9,10 @@ import Image from "next/image";
 export default function Button(props:any) {
     return (
         <Link 
-            href={props.url || "/"} 
+            href={props.url ? props.url : ''} 
             className={`flex justify-between items-center p-2 rounded-2xl px-5
             ${props.fullWidth ? `w-full` : `w-40`}
-            ${props.isTransparent ? `bg-transparent text-black`: `bg-gradient-to-r from-dark-grass to-green-lime text-white`}
+            ${props.isTransparent ? `bg-transparent text-black`: `bg-gradient-to-r from-grass-green to-green text-white`}
             font-fredoka-medium`} 
             key={props.keyProp} 
             onClick={props.onClick} 

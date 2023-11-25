@@ -3,7 +3,7 @@ import {signOut, useSession} from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import Logo from "../common/logo"
-import {AiFillEdit, AiFillEye} from "react-icons/ai"
+import {AiFillEdit, AiFillEye, AiFillHome, AiOutlineLogout} from "react-icons/ai"
 import {GiBodyHeight, GiWeight} from "react-icons/gi"
 import { CircularProgressbar,CircularProgressbarWithChildren, buildStyles} from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
@@ -100,15 +100,18 @@ export default function ProfileComponent()
     if(status === "authenticated") {
         return( 
             <div className="bg-[#EAEAEA] h-full w-full flex heropattern-ilikefood-green-lime/10">
-                <div className="flex h-auto bg-white w-36">
-                    <a  className="flex mx-auto hover:bg-gray h-fit w-auto hover:py-4 hover:px-9 px-10 py-5 mt-5 rounded-lg" href="/">
-                        <Logo></Logo>
+                {/*Menu section */}
+                <div className="w-fit h-screen bg-white px-2 rounded-b-lg">
+                    <a  className="flex wx-auto hover:bg-gray h-fit w-auto px-5 py-5 mt-5 rounded-lg" href="/">
+                        <AiFillHome size={20}/>
                     </a>
-                    <button className="bg-yellow p-2 mt-10 m-auto text-white font-fredoka-semi-bold" onClick={()=>signOut()}>Sign Out</button>
+                    <button className="flex wx-auto hover:bg-gray px-5 py-5 rounded-lg" onClick={()=>signOut()}><AiOutlineLogout size={20} color="black" fill="black"/></button>
                 </div>
-                <div className="m-10 w-full">
+
+                <div className="m-5 w-full">
                     <div className="flex h-fit w-full">
-                        <div className="flex rounded-s-lg px-10 py-7 w-full bg-gradient-to-r from-dark-grass to-green-lime">
+                        {/*Goal section */}
+                        <div className="flex rounded-s-lg px-10 py-4 w-full bg-gradient-to-r from-green to-grass-green">
                             <div className="flex">
                                 <div className="h-fit w-20 mr-5">
                                     <ProgressProvider valueStart={0} valueEnd={goalPercentage}>
@@ -155,14 +158,13 @@ export default function ProfileComponent()
                                             background: {
                                                 fill: "gray",
                                             },
-                                            
                                         }
                                         
                                         } />
                                     }
                                     </ProgressProvider>
                                 </div>
-                                <div className="text-white my-auto">
+                                <div className="md:block hidden text-white my-auto">
                                     <h1 className="font-fredoka-medium">Complete Your Calories Goal</h1>
                                     <h2 className="font-fredoka-regular">If you want to change your goal just press the button from the right</h2>
                                 </div>
@@ -173,51 +175,65 @@ export default function ProfileComponent()
                             <button><AiFillEdit size={30}/></button>
                         </div>
                     </div>
-                    <div className="grid grid-cols-3 grid-rows-1 gap-5">
-                        <div className="bg-white h-fit w-full rounded-lg mt-5">
-                            <div className="grid grid-rows-1 grid-cols-3">
-                                <div className="flex h-fit pl-20 pt-10 w-fit col-span-2">
-                                    <img className="h-24 rounded-full" src={session.user.image}></img>
-                                    <h1 className="w-72 font-fredoka-medium text-lg m-auto ml-10">{session.user.name}</h1>
-                                </div>
-                                {
-                                    height != 0.0 && weight != 0.0 && updateStatus &&
-                                    <div className="flex bg-gradient-to-tr from-green to-green-lime h-fit w-20 align-top rounded-tr-lg ml-auto">
-                                        <button className="text-center m-auto text-white font-fredoka-medium p-5" onClick={handleUpdateUser}>Save</button>
-                                    </div>
-                                }
-                            </div>
-                            <div className="flex w-fit h-fit mt-10 pl-20">
-                                <div className="m-auto mr-0">
-                                    <GiBodyHeight size={30}/>
-                                </div>
-                                    <h1 className="m-auto ml-2">Height:</h1>
-                                <input value={height ? height : 0} type="number" className="ml-5 outline-none w-16" placeholder="Enter your height" onChange={(height)=>{setHeight(height.target.value); setUpdateStatus(true)}}></input>
-                            </div>
-                            <div className="flex w-fit h-fit mt-3 pl-20">
-                                <div className="m-auto mr-0">
-                                    <GiWeight size={30}/>
-                                </div>
-                                    <h1 className="m-auto ml-2">Weight</h1>
-                                <input value={weight ? weight : 0} type="number" className="ml-5 outline-none w-16" placeholder="Enter your height" onChange={(weight)=>{setWeight(weight.target.value);setUpdateStatus(true)}}></input>
-                            </div>
-                            <hr className="mt-10 opacity-25 mx-16"></hr>
-                            
-                            <div className="flex bg-[#D9D9D9] mx-20 h-64 w-auto my-10 m-auto rounded-2xl">
-                                <img className="self-center m-auto" src="/"></img>
-                            </div>
-                            <a className="flex ml-16 mb-10 h-fit w-fit" href="/">
-                                <AiFillEye size={30} color="#309975"/>
-                                <h1 className="text-green font-fredoka-medium my-auto ml-2">View your progress</h1>
-                            </a>
-                        </div>
 
-                            <div className="grid grid-cols-1 grid-rows-5 col-span-2 gap-5">
-                                <div className="bg-white grid h-fit w-full rounded-lg mt-5 grid-rows-5 grid-cols-1 gap-5">
-                                    <div className="grid grid-cols-7 grid-rows-1 row-span-4 pt-8">
-                                        <div className="flex h-auto w-auto m-auto col-span-3">
-                                            <div className="lg:h-auto lg:w-auto h-48 w-48">
-                                                <CircularProgressbarWithChildren className="mx-auto" value={caloriesPercentage} styles={
+                    {/*Dashboard*/}
+                    <div className="grid grid-cols-1 lg:grid-rows-2 grid-rows-3 gap-5">
+
+                        {/*First row */}
+                        <div className="grid lg:grid-cols-3 lg:row-span-1 grid-cols-1 row-span-2 md:gap-5 "> 
+                        {/*Left section */}
+                            <div className="grid grid-cols-1 col-span-1 row-span-1 gap-5 mt-5 ">
+                                <div className="bg-white w-full flex flex-col justify-between rounded-lg h-auto">
+                                    <div className="grid grid-rows-2 grid-cols-1 w-full">
+
+                                        <div className="flex ml-auto h-fit w-fit">
+                                            {
+                                                height != 0.0 && weight != 0.0 && updateStatus && 
+                                                <button className="text-center m-auto text-white font-fredoka-medium p-5 bg-gradient-to-tr from-green to-grass-green rounded-tr-lg" onClick={handleUpdateUser}>Save</button>
+                                            }
+                                        </div>
+                                        {/*photo name section */}
+                                        <div className="flex m-auto h-fit w-fit">
+                                            <img className="h-20 rounded-full" src={session.user.image}></img>
+                                            <h1 className="w-full font-fredoka-medium text-base m-auto ml-10">{session.user.name}</h1>
+                                        </div>
+                                    </div>
+                                    <div className="w-full flex flex-col justify-center items-center mt-5">
+                                        <div className="flex items-center justify-center">
+                                            <div className="flex items-center">
+                                                <GiBodyHeight size={30}/>
+                                                <h1>Height:</h1>
+                                            </div>
+                                            <input value={height ? height : 0} type="number" className="outline-none w-20 text-right" placeholder="Enter your height" onChange={(height)=>{setHeight(height.target.value); setUpdateStatus(true)}}></input>
+                                        </div>
+                                        <div className="flex items-center justify-center mt-2">
+                                            <div className="flex items-center">
+                                                <GiWeight size={30}/>
+                                                <h1>Weight:</h1>
+                                            </div>
+                                            <input value={weight ? weight : 0} type="number" className="outline-none w-20 text-right" placeholder="Enter your height" onChange={(weight)=>{setWeight(weight.target.value);setUpdateStatus(true)}}></input>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex flex-col justify-center items-center w-full mt-5">
+                                        <div className="flex bg-[#D9D9D9] h-44 w-44 rounded-2xl">
+                                            <img className="self-center m-auto" src="/"></img>
+                                        </div>
+                                        <a className="flex pb-10" href="/">
+                                            <AiFillEye size={30} color="#309975"/>
+                                            <h1 className="text-green font-fredoka-medium my-auto ">View your progress</h1>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            {/*Statistics */}
+                            <div className="grid col-span-2 gap-5"> 
+                                <div className="grid grid-cols-1 grid-rows-4 gap-5 bg-white mt-5 rounded-lg rounded-b-lg">
+                                    <div className="grid row-span-4 md:grid-cols-3 md:grid-row-2 grid-row-3 grid-cols-1">
+                                        {/*Diagram */}
+                                        <div className="grid md:row-span-3 grid-cols-1 h-full">
+                                            <div className="p-10  m-auto">
+                                                <CircularProgressbarWithChildren className="m-auto" value={caloriesPercentage} styles={
                                                 {   
                                                     root: {},
                                                     // Customize the path, i.e. the "completed progress"
@@ -248,78 +264,83 @@ export default function ProfileComponent()
                                                     }
                                                 }>
                                                     <div className="grid grid-rows-2 grid-cols-1 font-fredoka-regular mt-10 w-fit h-fit">
-                                                        <span className="font-fredoka-medium text-center text-5xl">{calories}</span> <span className="text-center text-2xl text-black opacity-50">kcal</span>
+                                                        <span className="font-fredoka-medium text-center lg:text-5xl text-4xl">{calories}</span> <span className="lg:flex hidden text-center text-2xl text-black opacity-50">kcal</span>
                                                     </div>
                                                 </CircularProgressbarWithChildren>
                                             </div>
                                         </div>
-                                        <div className="grid grid-rows-3 grid-cols-1 col-span-4 row-span-2">
-                                            <div className="m-auto">
+                                        {/*Macronutrients */}
+                                        <div className="md:row-span-3 grid-cols-1 md:col-span-2 flex flex-col justify-around items-start">
+                                            <div className="m-auto w-full px-10">
                                                 <h1 className="font-fredoka-medium text-black">Proteine</h1>
                                                 <ProgressBar
                                                     bgColor="#13815B"
                                                     completed={0}
                                                     // customLabel={`120 grams`}
-                                                    width="500px"
+                                                    width="100%"
                                                     baseBgColor="#C2C2C2"
                                                 />
                                             </div>
-                                            <div className="m-auto">
+                                            <div className="m-auto w-full px-10">
                                                 <h1 className="font-fredoka-medium text-black">Carbohydrates</h1>
                                                 <ProgressBar
                                                     bgColor="#EFEEB4"
                                                     completed={0}
                                                     // customLabel={`2000 grams`}
                                                     labelColor="#454d66"
-                                                    width="500px"
+                                                    width="100%"
                                                     baseBgColor="#C2C2C2"
                                                 />
                                             </div>
-                                            <div className="m-auto">
+                                            <div className="m-auto w-full px-10">
                                                 <h1 className="font-fredoka-medium text-black">Fats</h1>
                                                 <ProgressBar
                                                     bgColor="#58B368"
                                                     completed={0}
                                                     // customLabel={`20 grams`}
-                                                    width="500px"
+                                                    width="100%"
                                                     baseBgColor="#C2C2C2"
                                                 />
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className="flex rounded-b-lg">
-                                        <a className="flex my-auto ml-auto mr-10 mb-10" href="/">
-                                            <div className="flex m-auto h-fit w-fit">
-                                                <AiFillEye size={30} color="#309975"/>
-                                            </div>
-                                            <h1 className="my-auto ml-2 text-[#309975] font-fredoka-medium">More details</h1>
-                                        </a>
-                                    </div>
-                                </div>
-                                
-                                {/*List of aliments*/}
-                                <div className="bg-white h-fit w-full rounded-lg row-span-4">
-                                    <div className="flex w-full h-fit justify-between">
-                                        <h1 className="my-auto ml-10 font-fredoka-medium text-[#309975] text-xl">Today's list</h1>
-                                        <div className="flex bg-gradient-to-tr from-green to-green-lime h-fit w-32 align-top rounded-tr-lg ml-auto">
-                                        <Popup trigger={<button className="text-center m-auto text-white font-fredoka-medium p-5" onClick={()=>{setPopUpAddFood(true)}}>Add Food</button>} modal nested>
-                                            <PopUpAddFood dataSession={session}></PopUpAddFood>
-                                        </Popup>
-                                        </div>
-                                    </div>
-                                    <div className="grid grid-cols-1 h-fit pb-10 pt-10 gap-2 text-black">
-                                        {
-                                            // todayFood.map((food)=><div key={food._id}><h1 className="text-black">{food.name}</h1></div>)
-                                            todayFood &&
-                                            todayFood.map((food)=>
-                                                <div key={food._id} className="w-auto h-fit ml-5 mr-5 py-5 px-10 bg-white rounded-lg drop-shadow-lg">
-                                                    <h1 key={food._id}>{food.name}</h1>
+                                        {/*View calories */}
+                                        <div className="row-span-1 md:col-span-4  h-fit ">
+                                            <a className="flex py-10 md:justify-end justify-center md:pr-32 w-full" href="/">
+                                                <div className="flex h-fit w-fit">
+                                                    <AiFillEye size={30} color="#309975"/>
                                                 </div>
-                                            )
-                                        }
-                                    </div>
+                                                <h1 className="my-auto text-[#309975] font-fredoka-medium">More details</h1>
+                                            </a>
+                                        </div>
+                                    </div>  
                                 </div>
                             </div>
+                        </div>
+
+                         {/*Second row */}
+                        <div className="row-span-1">
+                            <div className="bg-white h-fit w-full rounded-lg">
+                                <div className="flex w-full h-fit justify-between">
+                                    <h1 className="my-auto ml-10 font-fredoka-medium text-[#309975] text-xl">Today's list</h1>
+                                    <div className="flex bg-gradient-to-tr from-green to-grass-green h-fit w-32 align-top rounded-tr-lg ml-auto">
+                                    <Popup trigger={<button className="text-center m-auto text-white font-fredoka-medium p-5" onClick={()=>{setPopUpAddFood(true)}}>Add Food</button>} modal nested>
+                                        <PopUpAddFood dataSession={session}></PopUpAddFood>
+                                    </Popup>
+                                    </div>
+                                </div>
+                                <div className="grid grid-cols-1 h-full pb-10 pt-10 gap-5 text-black">
+                                    {
+                                        // todayFood.map((food)=><div key={food._id}><h1 className="text-black">{food.name}</h1></div>)
+                                        todayFood &&
+                                        todayFood.map((food)=>
+                                            <div key={food._id} className="w-auto h-fit ml-5 mr-5 py-5 px-10 bg-white rounded-lg drop-shadow-lg">
+                                                <h1 key={food._id}>{food.name}</h1>
+                                            </div>
+                                        )
+                                    }
+                                </div>  
+                            </div>        
+                        </div>
                     </div>
                 </div>
             </div>
@@ -327,6 +348,7 @@ export default function ProfileComponent()
     }
 
     return (
-        <h1>Loading...</h1>
+        <div className="w-screen h-screen bg-dark-grass">
+        </div>
     )
 }
