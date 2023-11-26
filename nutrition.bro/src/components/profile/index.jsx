@@ -34,8 +34,11 @@ export default function ProfileComponent()
     const router = useRouter()
 
     const [goalPercentage, setGoalPercentage] = useState(0);
-    const [animationGoalPercentage, setAnimationGoalPercentage] = useState(0)
-    const [calories, setCalories] = useState(0)
+    const [animationGoalPercentage, setAnimationGoalPercentage] = useState(0);
+    const [calories, setCalories] = useState(0);
+    const [protein, setProtein] = useState(0);
+    const [carbohydrate, setCarb] = useState(0);
+    const [fats, setFats] = useState(0);
 
     const id = session?.user.email
 
@@ -97,7 +100,31 @@ export default function ProfileComponent()
         if(status === "unauthenticated") router.push("/sign-up");
     }, [status])
 
+    useEffect(()=>{
+        if( todayFood )
+        {
+            let totalCalories = 0.0;
+            let totalProtein = 0.0;
+            let totalCarbohydrate = 0.0;
+            let totalFats = 0.0;
+            todayFood.map((item)=> {
+                totalCalories += item.calories;
+                totalProtein += item.protein;
+                totalCarbohydrate += item.carbohydrates;
+                totalFats += item.total_fats;
+            });
+            
+            setCalories(totalCalories.toFixed(2));
+            setProtein(totalProtein.toFixed(2));
+            setCarb(totalCarbohydrate.toFixed(2));
+            setFats(totalFats.toFixed(2));
+            setCaloriesPercentage(calories * 100 / 2000);
+        } 
+    })
+
+
     if(status === "authenticated") {
+
         return( 
             <div className="bg-[#EAEAEA] h-full w-full flex heropattern-ilikefood-green-lime/10">
                 {/*Menu section */}
@@ -175,15 +202,14 @@ export default function ProfileComponent()
                             <button><AiFillEdit size={30}/></button>
                         </div>
                     </div>
-
                     {/*Dashboard*/}
-                    <div className="grid grid-cols-1 lg:grid-rows-2 grid-rows-3 gap-5">
-
+                    <div className="grid lg:grid-rows-1 grid-rows-4 gap-5 mt-5"> 
+                    {/* O coloana cu Doua randuri / rep(O coloana cu Trei Randuri) */}
                         {/*First row */}
-                        <div className="grid lg:grid-cols-3 lg:row-span-1 grid-cols-1 row-span-2 md:gap-5 "> 
-                        {/*Left section */}
-                            <div className="grid grid-cols-1 col-span-1 row-span-1 gap-5 mt-5 ">
-                                <div className="bg-white w-full flex flex-col justify-between rounded-lg h-auto">
+                        <div className="grid lg:grid-cols-3 lg:row-span-1 grid-cols-1 row-span-3 lg:gap-5"> 
+                            {/*Left section */}
+                            <div className="h-full w-full">
+                                <div className="bg-white w-full flex flex-col justify-between rounded-lg h-full">
                                     <div className="grid grid-rows-2 grid-cols-1 w-full">
 
                                         <div className="flex ml-auto h-fit w-fit">
@@ -227,12 +253,12 @@ export default function ProfileComponent()
                                 </div>
                             </div>
                             {/*Statistics */}
-                            <div className="grid col-span-2 gap-5"> 
-                                <div className="grid grid-cols-1 grid-rows-4 gap-5 bg-white mt-5 rounded-lg rounded-b-lg">
+                            <div className="col-span-2 h-full lg:mt-0 mt-5"> 
+                                <div className="grid grid-cols-1 grid-rows-4 bg-white rounded-lg rounded-b-lg h-full">
                                     <div className="grid row-span-4 md:grid-cols-3 md:grid-row-2 grid-row-3 grid-cols-1">
                                         {/*Diagram */}
                                         <div className="grid md:row-span-3 grid-cols-1 h-full">
-                                            <div className="p-10  m-auto">
+                                            <div className="p-10 m-auto">
                                                 <CircularProgressbarWithChildren className="m-auto" value={caloriesPercentage} styles={
                                                 {   
                                                     root: {},
@@ -264,7 +290,7 @@ export default function ProfileComponent()
                                                     }
                                                 }>
                                                     <div className="grid grid-rows-2 grid-cols-1 font-fredoka-regular mt-10 w-fit h-fit">
-                                                        <span className="font-fredoka-medium text-center lg:text-5xl text-4xl">{calories}</span> <span className="lg:flex hidden text-center text-2xl text-black opacity-50">kcal</span>
+                                                        <span className="font-fredoka-medium text-center lg:text-5xl text-4xl">{calories}</span> <span className="lg:flex hidden justify-center text-2xl text-black opacity-50">kcal</span>
                                                     </div>
                                                 </CircularProgressbarWithChildren>
                                             </div>
@@ -272,10 +298,10 @@ export default function ProfileComponent()
                                         {/*Macronutrients */}
                                         <div className="md:row-span-3 grid-cols-1 md:col-span-2 flex flex-col justify-around items-start">
                                             <div className="m-auto w-full px-10">
-                                                <h1 className="font-fredoka-medium text-black">Proteine</h1>
+                                                <h1 className="font-fredoka-medium text-black">Protein</h1>
                                                 <ProgressBar
                                                     bgColor="#13815B"
-                                                    completed={0}
+                                                    completed={protein}
                                                     // customLabel={`120 grams`}
                                                     width="100%"
                                                     baseBgColor="#C2C2C2"
@@ -285,7 +311,7 @@ export default function ProfileComponent()
                                                 <h1 className="font-fredoka-medium text-black">Carbohydrates</h1>
                                                 <ProgressBar
                                                     bgColor="#EFEEB4"
-                                                    completed={0}
+                                                    completed={carbohydrate}
                                                     // customLabel={`2000 grams`}
                                                     labelColor="#454d66"
                                                     width="100%"
@@ -296,7 +322,7 @@ export default function ProfileComponent()
                                                 <h1 className="font-fredoka-medium text-black">Fats</h1>
                                                 <ProgressBar
                                                     bgColor="#58B368"
-                                                    completed={0}
+                                                    completed={fats}
                                                     // customLabel={`20 grams`}
                                                     width="100%"
                                                     baseBgColor="#C2C2C2"
@@ -304,13 +330,15 @@ export default function ProfileComponent()
                                             </div>
                                         </div>
                                         {/*View calories */}
-                                        <div className="row-span-1 md:col-span-4  h-fit ">
-                                            <a className="flex py-10 md:justify-end justify-center md:pr-32 w-full" href="/">
-                                                <div className="flex h-fit w-fit">
-                                                    <AiFillEye size={30} color="#309975"/>
-                                                </div>
-                                                <h1 className="my-auto text-[#309975] font-fredoka-medium">More details</h1>
-                                            </a>
+                                        <div className="row-span-1 md:col-span-4 h-fit ">
+                                            <div className="flex py-10 md:justify-end justify-center md:pr-32 w-full">
+                                                <a className="flex" href="/">
+                                                    <div className="flex h-fit w-fit">
+                                                        <AiFillEye size={30} color="#309975"/>
+                                                    </div>
+                                                    <h1 className="my-auto text-[#309975] font-fredoka-medium">More details</h1>
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>  
                                 </div>
@@ -318,7 +346,7 @@ export default function ProfileComponent()
                         </div>
 
                          {/*Second row */}
-                        <div className="row-span-1">
+                        <div className="lg:row-span-3 row-span-1 h-fit lg:mt-0 mt-5">
                             <div className="bg-white h-fit w-full rounded-lg">
                                 <div className="flex w-full h-fit justify-between">
                                     <h1 className="my-auto ml-10 font-fredoka-medium text-[#309975] text-xl">Today's list</h1>
@@ -330,7 +358,6 @@ export default function ProfileComponent()
                                 </div>
                                 <div className="grid grid-cols-1 h-full pb-10 pt-10 gap-5 text-black">
                                     {
-                                        // todayFood.map((food)=><div key={food._id}><h1 className="text-black">{food.name}</h1></div>)
                                         todayFood &&
                                         todayFood.map((food)=>
                                             <div key={food._id} className="w-auto h-fit ml-5 mr-5 py-5 px-10 bg-white rounded-lg drop-shadow-lg">
