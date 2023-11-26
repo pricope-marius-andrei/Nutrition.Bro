@@ -51,6 +51,7 @@ const handler = NextAuth({
     secret: process.env.NEXTAUTH_SECRET,
     pages: "/log-in",
     callbacks: {
+        async redirect({ url, baseUrl }) { return baseUrl },
         async jwt({token, trigger, session, user})
         {
             if(trigger === "update")
@@ -128,7 +129,22 @@ const handler = NextAuth({
                                 height: 0,
                                 weight: 0
                             },
-                            food: [{}]
+                            food: [
+                                {
+                                    name: " ",
+                                    calories: 0,
+                                    serving_size: 0,
+                                    protein:0,
+                                    carbohydrates:0,
+                                    sugar: 0,
+                                    total_fats:0,
+                                    saturated_fats:0,
+                                    potassium:0,
+                                    sodium:0,
+                                    fiber:0,
+                                    cholesterol:0
+                                }
+                            ]
                         })
                     }
                     return true;
