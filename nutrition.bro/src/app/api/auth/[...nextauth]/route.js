@@ -130,20 +130,20 @@ const handler = NextAuth({
                                 weight: 0
                             },
                             food: [
-                                {
-                                    name: " ",
-                                    calories: 0,
-                                    serving_size: 0,
-                                    protein:0,
-                                    carbohydrates:0,
-                                    sugar: 0,
-                                    total_fats:0,
-                                    saturated_fats:0,
-                                    potassium:0,
-                                    sodium:0,
-                                    fiber:0,
-                                    cholesterol:0
-                                }
+                                // {
+                                //     name: " ",
+                                //     calories: 0,
+                                //     serving_size: 0,
+                                //     protein:0,
+                                //     carbohydrates:0,
+                                //     sugar: 0,
+                                //     total_fats:0,
+                                //     saturated_fats:0,
+                                //     potassium:0,
+                                //     sodium:0,
+                                //     fiber:0,
+                                //     cholesterol:0
+                                // }
                             ]
                         })
                     }
