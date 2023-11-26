@@ -203,12 +203,12 @@ export default function ProfileComponent()
                         </div>
                     </div>
                     {/*Dashboard*/}
-                    <div className="grid lg:grid-rows-1 grid-rows-4 gap-5 mt-5"> 
+                    <div className="grid lg:grid-rows-1 grid-rows-2 gap-5 mt-5"> 
                     {/* O coloana cu Doua randuri / rep(O coloana cu Trei Randuri) */}
                         {/*First row */}
                         <div className="grid lg:grid-cols-3 lg:row-span-1 grid-cols-1 row-span-3 lg:gap-5"> 
                             {/*Left section */}
-                            <div className="h-full w-full">
+                            <div className="h-fit w-full">
                                 <div className="bg-white w-full flex flex-col justify-between rounded-lg h-full">
                                     <div className="grid grid-rows-2 grid-cols-1 w-full">
 

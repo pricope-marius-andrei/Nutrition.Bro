@@ -28,62 +28,62 @@ const UserSchema = new Schema(
                 name: 
                 { 
                     type: String,
-                    // required: [true, 'Name of food is required!']
+                    required: false
                 },
                 calories: 
                 {
                     type: Number,
-                    // required: [true, 'Calories is required']
+                    required: false
                 },
                 serving_size: 
                 {
                     type: Number,
-                    // required: [true, 'Serving_size is required']
+                    required: false
                 },
                 protein: 
                 {
                     type: Number,
-                    // required: [true, 'Protein is required']
+                    required: false
                 },
                 carbohydrates: 
                 {
                     type: Number,
-                    // required: [true, 'Carbohydrated is required']
+                    required: false
                 },
                 sugar: 
                 {
                     type: Number,
-                    // required: [true, 'Sugar is required']
+                    required: false
                 },
                 total_fats: 
                 {
                     type: Number,
-                    // required: [true, 'Total fats is required']
+                    required: false
                 },
                 saturated_fats: 
                 {
                     type: Number,
-                    // required: [true, 'Saturated fats is required']
+                    required: false
                 },
                 potassium: 
                 {
                     type: Number,
-                    // required: [true, 'Postassium is required']
+                    required: false
                 },
                 sodium: 
                 {
                     type: Number,
-                    // required: [true, 'Sodium is required']
+                    required: false
                 },
                 fiber: 
                 {
                     type: Number,
-                    // required: [true, 'Fiber is required']
+                    required: false
                 },
                 cholesterol: 
                 {
                     type: Number,
-                    // required: [true, 'Cholesterol is required']
+                    required: false
                 }
             }
         ],
