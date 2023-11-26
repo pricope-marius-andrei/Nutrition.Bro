@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { AiOutlinePlusCircle, AiOutlineBarChart, AiOutlineArrowLeft   } from "react-icons/ai";
+import { AiOutlinePlusCircle, AiOutlineBarChart, AiOutlineArrowLeft, AiFillPlusCircle } from "react-icons/ai";
 import { TbEdit } from "react-icons/tb";
 import SearchBar from "@components/common/search_bar";
 import Button from "@components/common/button";
@@ -139,11 +139,12 @@ export default function PopUpAddFood(props) {
         </div>
       )}
       {status === "search" && (
-        <div className="w-full h-fit p-10 rounded-lg">
-          <div className="lg:grid lg:grid-rows-1 lg:grid-cols-6 flex sm:flex-row flex-col sm:justify-around items-center">
+        <div className="w-full h-fit pt-5 pl-2 pb-5 rounded-lg">
+          <div className="lg:grid lg:grid-rows-1 lg:grid-cols-6 flex sm:flex-row flex-col sm:justify-around items-center pb-5">
             <button className="flex justify-center hover:bg-gray p-5 rounded-lg order-1 w-fit" onClick={()=> {
               setStatus("none");
               setNutrtionalValues(null);
+              setEditMode(false);
             }}><AiOutlineArrowLeft size={30}/></button>
             <div className="col-span-4 lg:order-2 order-3">
               <SearchBar sizeIcon={30} food={food} setFood={setFood}></SearchBar>
@@ -194,13 +195,11 @@ export default function PopUpAddFood(props) {
           {
             /*Nutritional Values*/
             nutritionalValues && nutritionalValues !== null && (
-              <div className="flex bg-white heropattern-ilikefood-green/10 h-auto row-span-3 p-10 pb-20">
-                {" "}
+              <div className="flex bg-white heropattern-ilikefood-green/10 h-96 md:h-full row-span-3 p-10 md:overflow-hidden overflow-scroll">
                 {/*The whole frame*/}
-                <div className="w-full grid grid-cols-2 gap-5">
-                  {" "}
+                <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-5">
                   {/* the nutritional values frame */}
-                  <div className="">
+                  <div className="w-full">
                     <div className="flex justify-between w-full">
                       {!editMode ? (
                         <div className="flex">
@@ -228,10 +227,15 @@ export default function PopUpAddFood(props) {
                       )}
                       {!editMode ? (
                         <button
-                          className="px-3 py-1 hover:bg-transparent hover:text-black bg-dark-grass text-lg text-white font-fredoka-medium rounded-lg"
+                          className="px-3 py-1 h-fit hover:bg-transparent hover:text-black bg-dark-grass text-lg text-white font-fredoka-medium rounded-lg"
                           onClick={handleUpdateUser}
                         >
-                          Add Food
+                          <span className="lg:block hidden lg:text-lg text-sm">
+                            Add Food
+                          </span>
+                          <div className="lg:hidden block">
+                            <AiFillPlusCircle size={30}/>
+                          </div>
                         </button>
                       ) : (
                         <div className="flex m-auto h-fit w-fit mx-2">
@@ -245,178 +249,182 @@ export default function PopUpAddFood(props) {
                         </div>
                       )}
                     </div>
-                    <div className="m-auto">
-                      <h1 className="font-fredoka-medium text-black">
-                        Proteine
-                      </h1>
-                      <EditProgressBar
-                        editMode={editMode}
-                        totalNutientValue={protein}
-                        servingSize={servingSize}
-                        smallestEnergy={theSmallestEnergy}
-                        calories={calories}
-                        width={nutritionalValueProgressBarWidth}
-                        setNutritionalValue={setProtein}
-                        setCalories={setCalories}
-                        labelSize={labelSizeProgressBar}
-                        error={errorPrecentage}
-                        nutritionalParameter={4}
-                        unit="g"
-                      />
-                    </div>
-                    <div className="m-auto">
-                      <h1 className="font-fredoka-medium text-black">
-                        Total Fat
-                      </h1>
-                      <EditProgressBar
-                        editMode={editMode}
-                        totalNutientValue={totalFats}
-                        servingSize={servingSize}
-                        smallestEnergy={theSmallestEnergy}
-                        calories={calories}
-                        width={nutritionalValueProgressBarWidth}
-                        setNutritionalValue={setTotalFats}
-                        setCalories={setCalories}
-                        labelSize={labelSizeProgressBar}
-                        error={errorPrecentage}
-                        nutritionalParameter={9}
-                        unit="g"
-                      />
-                    </div>
-                    <div className="m-auto">
-                      <h1 className="font-fredoka-medium text-black">
-                        Saturated Fat
-                      </h1>
-                      <EditProgressBar
-                        editMode={editMode}
-                        totalNutientValue={saturatedFats}
-                        servingSize={servingSize}
-                        smallestEnergy={theSmallestEnergy}
-                        calories={calories}
-                        width={nutritionalValueProgressBarWidth}
-                        setNutritionalValue={setSaturatedFats}
-                        setTotalFats={setTotalFats}
-                        totalFats={totalFats}
-                        setCalories={setCalories}
-                        labelSize={labelSizeProgressBar}
-                        error={errorPrecentage}
-                        nutritionalParameter={9}
-                        unit="g"
-                      />
-                    </div>
-                    <div className="m-auto">
-                      <h1 className="font-fredoka-medium text-black">
-                        Carbohydrates
-                      </h1>
-                      <EditProgressBar
-                        editMode={editMode}
-                        totalNutientValue={carbohydrates}
-                        servingSize={servingSize}
-                        smallestEnergy={theSmallestEnergy}
-                        calories={calories}
-                        width={nutritionalValueProgressBarWidth}
-                        setNutritionalValue={setCarbohydrates}
-                        setCalories={setCalories}
-                        labelSize={labelSizeProgressBar}
-                        error={errorPrecentage}
-                        nutritionalParameter={4}
-                        unit="g"
-                      />
-                    </div>
-                    <div className="m-auto">
-                      <h1 className="font-fredoka-medium text-black">Sugar</h1>
-                      <EditProgressBar
-                        editMode={editMode}
-                        totalNutientValue={sugar}
-                        servingSize={servingSize}
-                        smallestEnergy={theSmallestEnergy}
-                        calories={calories}
-                        width={nutritionalValueProgressBarWidth}
-                        setNutritionalValue={setSugar}
-                        setTotalCarbohydrates={setCarbohydrates}
-                        totalCarbohydrates={carbohydrates}
-                        setCalories={setCalories}
-                        labelSize={labelSizeProgressBar}
-                        error={errorPrecentage}
-                        nutritionalParameter={4}
-                        unit="g"
-                      />
-                    </div>
-                    <div className="m-auto">
-                      <h1 className="font-fredoka-medium text-black">Fiber</h1>
-                      <EditProgressBar
-                        editMode={editMode}
-                        totalNutientValue={fiber}
-                        servingSize={servingSize}
-                        smallestEnergy={theSmallestEnergy}
-                        calories={calories}
-                        width={nutritionalValueProgressBarWidth}
-                        setNutritionalValue={setFiber}
-                        setCalories={setCalories}
-                        labelSize={labelSizeProgressBar}
-                        error={errorPrecentage}
-                        nutritionalParameter={0}
-                        unit="g"
-                      />
-                    </div>
-                    <div className="m-auto">
-                      <h1 className="font-fredoka-medium text-black">
-                        Potassium
-                      </h1>
-                      <EditProgressBar
-                        editMode={editMode}
-                        totalNutientValue={potassium}
-                        servingSize={servingSize}
-                        smallestEnergy={theSmallestEnergy}
-                        calories={calories}
-                        width={nutritionalValueProgressBarWidth}
-                        setNutritionalValue={setPotassium}
-                        setCalories={setCalories}
-                        labelSize={labelSizeProgressBar}
-                        error={errorPrecentage}
-                        nutritionalParameter={0}
-                        unit="mg"
-                      />
-                    </div>
-                    <div className="m-auto">
-                      <h1 className="font-fredoka-medium text-black">Sodium</h1>
-                      <EditProgressBar
-                        editMode={editMode}
-                        totalNutientValue={sodium}
-                        servingSize={servingSize}
-                        smallestEnergy={theSmallestEnergy}
-                        calories={calories}
-                        width={nutritionalValueProgressBarWidth}
-                        setNutritionalValue={setSodium}
-                        setCalories={setCalories}
-                        labelSize={labelSizeProgressBar}
-                        error={errorPrecentage}
-                        nutritionalParameter={0}
-                        unit="mg"
-                      />
-                    </div>
-                    <div className="m-auto">
-                      <h1 className="font-fredoka-medium text-black">
-                        Cholesterol
-                      </h1>
-                      <EditProgressBar
-                        editMode={editMode}
-                        totalNutientValue={cholesterol}
-                        servingSize={servingSize}
-                        smallestEnergy={theSmallestEnergy}
-                        calories={calories}
-                        width={nutritionalValueProgressBarWidth}
-                        setNutritionalValue={setCholesterol}
-                        setCalories={setCalories}
-                        labelSize={labelSizeProgressBar}
-                        error={errorPrecentage}
-                        nutritionalParameter={0}
-                        unit="mg"
-                      />
+
+                    {/*Nutrients */}
+                    <div className="flex flex-col h-96 w-full lg:h-auto lg:overflow-hidden overflow-y-scroll overflow-x-scroll text-sm p-5 mt-2">
+                      <div className="w-56 lg:w-full">
+                        <h1 className="font-fredoka-medium text-black">
+                          Proteine
+                        </h1>
+                        <EditProgressBar
+                          editMode={editMode}
+                          totalNutientValue={protein}
+                          servingSize={servingSize}
+                          smallestEnergy={theSmallestEnergy}
+                          calories={calories}
+                          width={nutritionalValueProgressBarWidth}
+                          setNutritionalValue={setProtein}
+                          setCalories={setCalories}
+                          labelSize={labelSizeProgressBar}
+                          error={errorPrecentage}
+                          nutritionalParameter={4}
+                          unit="g"
+                        />
+                      </div>
+                      <div className="w-56 lg:w-full">
+                        <h1 className="font-fredoka-medium text-black">
+                          Total Fat
+                        </h1>
+                        <EditProgressBar
+                          editMode={editMode}
+                          totalNutientValue={totalFats}
+                          servingSize={servingSize}
+                          smallestEnergy={theSmallestEnergy}
+                          calories={calories}
+                          width={nutritionalValueProgressBarWidth}
+                          setNutritionalValue={setTotalFats}
+                          setCalories={setCalories}
+                          labelSize={labelSizeProgressBar}
+                          error={errorPrecentage}
+                          nutritionalParameter={9}
+                          unit="g"
+                        />
+                      </div>
+                      <div className="w-56 lg:w-full">
+                        <h1 className="font-fredoka-medium text-black">
+                          Saturated Fat
+                        </h1>
+                        <EditProgressBar
+                          editMode={editMode}
+                          totalNutientValue={saturatedFats}
+                          servingSize={servingSize}
+                          smallestEnergy={theSmallestEnergy}
+                          calories={calories}
+                          width={nutritionalValueProgressBarWidth}
+                          setNutritionalValue={setSaturatedFats}
+                          setTotalFats={setTotalFats}
+                          totalFats={totalFats}
+                          setCalories={setCalories}
+                          labelSize={labelSizeProgressBar}
+                          error={errorPrecentage}
+                          nutritionalParameter={9}
+                          unit="g"
+                        />
+                      </div>
+                      <div className="w-56 lg:w-full">
+                        <h1 className="font-fredoka-medium text-black">
+                          Carbohydrates
+                        </h1>
+                        <EditProgressBar
+                          editMode={editMode}
+                          totalNutientValue={carbohydrates}
+                          servingSize={servingSize}
+                          smallestEnergy={theSmallestEnergy}
+                          calories={calories}
+                          width={nutritionalValueProgressBarWidth}
+                          setNutritionalValue={setCarbohydrates}
+                          setCalories={setCalories}
+                          labelSize={labelSizeProgressBar}
+                          error={errorPrecentage}
+                          nutritionalParameter={4}
+                          unit="g"
+                        />
+                      </div>
+                      <div className="w-56 lg:w-full">
+                        <h1 className="font-fredoka-medium text-black">Sugar</h1>
+                        <EditProgressBar
+                          editMode={editMode}
+                          totalNutientValue={sugar}
+                          servingSize={servingSize}
+                          smallestEnergy={theSmallestEnergy}
+                          calories={calories}
+                          width={nutritionalValueProgressBarWidth}
+                          setNutritionalValue={setSugar}
+                          setTotalCarbohydrates={setCarbohydrates}
+                          totalCarbohydrates={carbohydrates}
+                          setCalories={setCalories}
+                          labelSize={labelSizeProgressBar}
+                          error={errorPrecentage}
+                          nutritionalParameter={4}
+                          unit="g"
+                        />
+                      </div>
+                      <div className="w-56 lg:w-full">
+                        <h1 className="font-fredoka-medium text-black">Fiber</h1>
+                        <EditProgressBar
+                          editMode={editMode}
+                          totalNutientValue={fiber}
+                          servingSize={servingSize}
+                          smallestEnergy={theSmallestEnergy}
+                          calories={calories}
+                          width={nutritionalValueProgressBarWidth}
+                          setNutritionalValue={setFiber}
+                          setCalories={setCalories}
+                          labelSize={labelSizeProgressBar}
+                          error={errorPrecentage}
+                          nutritionalParameter={0}
+                          unit="g"
+                        />
+                      </div>
+                      <div className="w-56 lg:w-full">
+                        <h1 className="font-fredoka-medium text-black">
+                          Potassium
+                        </h1>
+                        <EditProgressBar
+                          editMode={editMode}
+                          totalNutientValue={potassium}
+                          servingSize={servingSize}
+                          smallestEnergy={theSmallestEnergy}
+                          calories={calories}
+                          width={nutritionalValueProgressBarWidth}
+                          setNutritionalValue={setPotassium}
+                          setCalories={setCalories}
+                          labelSize={labelSizeProgressBar}
+                          error={errorPrecentage}
+                          nutritionalParameter={0}
+                          unit="mg"
+                        />
+                      </div>
+                      <div className="w-56 lg:w-full">
+                        <h1 className="font-fredoka-medium text-black">Sodium</h1>
+                        <EditProgressBar
+                          editMode={editMode}
+                          totalNutientValue={sodium}
+                          servingSize={servingSize}
+                          smallestEnergy={theSmallestEnergy}
+                          calories={calories}
+                          width={nutritionalValueProgressBarWidth}
+                          setNutritionalValue={setSodium}
+                          setCalories={setCalories}
+                          labelSize={labelSizeProgressBar}
+                          error={errorPrecentage}
+                          nutritionalParameter={0}
+                          unit="mg"
+                        />
+                      </div>
+                      <div className="w-56 lg:w-full">
+                        <h1 className="font-fredoka-medium text-black">
+                          Cholesterol
+                        </h1>
+                        <EditProgressBar
+                          editMode={editMode}
+                          totalNutientValue={cholesterol}
+                          servingSize={servingSize}
+                          smallestEnergy={theSmallestEnergy}
+                          calories={calories}
+                          width={nutritionalValueProgressBarWidth}
+                          setNutritionalValue={setCholesterol}
+                          setCalories={setCalories}
+                          labelSize={labelSizeProgressBar}
+                          error={errorPrecentage}
+                          nutritionalParameter={0}
+                          unit="mg"
+                        />
+                      </div>
                     </div>
                   </div>
                   <div className="h-full w-full flex m-auto">
-                    <div className="m-auto">
+                    <div className="m-auto p-5">
                       <h1 className="my-auto font-fredoka-medium text-3xl text-center">
                         Total:
                       </h1>
