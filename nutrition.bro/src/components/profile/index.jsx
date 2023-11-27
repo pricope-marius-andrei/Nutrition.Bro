@@ -1,5 +1,5 @@
 'use client'
-import {signOut, useSession} from "next-auth/react"
+import {getSession, signOut, useSession} from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import Logo from "../common/logo"
@@ -12,13 +12,20 @@ import ProgressBar from "@ramonak/react-progress-bar"
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import PopUpAddFood from "../add-food"
+import useSWR from "swr"
+
+const fetcher = (url) => fetch(url).then((res)=>res.json());
 
 export default function ProfileComponent()
 {
     const [caloriesPercentage, setCaloriesPercentage]= useState(0);
     const percentageDelay = 15;
-    const {status, data:session} = useSession()
 
+    //useSWR - is another solution for get the user
+    const {data:session,mutate} = useSWR("/api/auth/session", fetcher, {
+        revalidateOnFocus: false,
+    }); 
+    const {status} = useSession()
     const heightDb = session?.user.measurements?.height
     const weightDb = session?.user.measurements?.weight
     const todayFood = session?.user.food;
@@ -69,6 +76,7 @@ export default function ProfileComponent()
 
     const provider = session?.user.sessionName === "Credentials" ? "updateUserCredentials" : "updateUser"
 
+    
     const handleUpdateUser = async () => {
 
         console.log(provider)
@@ -100,7 +108,8 @@ export default function ProfileComponent()
         if(status === "unauthenticated") router.push("/sign-up");
     }, [status])
 
-    useEffect(()=>{
+    useEffect(()=> {
+        mutate();
         if( todayFood )
         {
             let totalCalories = 0.0;
@@ -121,6 +130,11 @@ export default function ProfileComponent()
             setCaloriesPercentage(calories * 100 / 2000);
         } 
     })
+
+    // useEffect(()=> {
+    //     setCalories(calories);
+    //     console.log("Change");
+    // }, [calories]) 
 
 
     if(status === "authenticated") {
