@@ -3,7 +3,7 @@ import {getSession, signOut, useSession} from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import Logo from "../common/logo"
-import {AiFillEdit, AiFillEye, AiFillHome, AiOutlineLogout} from "react-icons/ai"
+import {AiFillEdit, AiFillEye, AiFillHome, AiOutlineLogout, AiFillDelete } from "react-icons/ai"
 import {GiBodyHeight, GiWeight} from "react-icons/gi"
 import { CircularProgressbar,CircularProgressbarWithChildren, buildStyles} from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
@@ -76,6 +76,19 @@ export default function ProfileComponent()
 
     const provider = session?.user.sessionName === "Credentials" ? "updateUserCredentials" : "updateUser"
 
+    const deleteHandler = async (id_food) => {
+        try {
+            const response = await fetch("/api/deleteFood", {
+                method: 'DELETE',
+                body: JSON.stringify({id_user:id, id_food:id_food}),
+                headers: {
+                'Content-Type': 'application/json',
+                },
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
     
     const handleUpdateUser = async () => {
 
@@ -103,7 +116,6 @@ export default function ProfileComponent()
         }
       }
     
-
     useEffect(()=>{
         if(status === "unauthenticated") router.push("/sign-up");
     }, [status])
@@ -130,12 +142,6 @@ export default function ProfileComponent()
             setCaloriesPercentage(calories * 100 / 2000);
         } 
     })
-
-    // useEffect(()=> {
-    //     setCalories(calories);
-    //     console.log("Change");
-    // }, [calories]) 
-
 
     if(status === "authenticated") {
 
@@ -315,7 +321,7 @@ export default function ProfileComponent()
                                                 <h1 className="font-fredoka-medium text-black">Protein</h1>
                                                 <ProgressBar
                                                     bgColor="#13815B"
-                                                    completed={protein}
+                                                    completed={(protein * 100 / weight * 2).toFixed(2)}
                                                     // customLabel={`120 grams`}
                                                     width="100%"
                                                     baseBgColor="#C2C2C2"
@@ -374,8 +380,12 @@ export default function ProfileComponent()
                                     {
                                         todayFood &&
                                         todayFood.map((food)=>
-                                            <div key={food._id} className="w-auto h-fit ml-5 mr-5 py-5 px-10 bg-white rounded-lg drop-shadow-lg">
-                                                <h1 key={food._id}>{food.name}</h1>
+                                            <div key={food._id} className="flex justify-between w-auto h-fit mx-5 bg-white rounded-lg drop-shadow-lg font-fredoka-medium">
+                                                <h1 className="flex items-center ml-10">{food.name}</h1>
+                                                <div className="flex ">
+                                                    <button className="flex justify-center hover:bg-gray h-full w-20 p-5 rounded-r-lg"><AiFillEdit size={30} color="#454d66"/></button>
+                                                    <button onClick={deleteHandler} className="flex justify-center bg-dark-grass h-full w-20 p-5 rounded-r-lg"><AiFillDelete size={30} color="white"/></button>
+                                                </div>
                                             </div>
                                         )
                                     }
