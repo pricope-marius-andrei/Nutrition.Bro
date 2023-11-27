@@ -1,11 +1,10 @@
 'use client'
-import {getSession, signOut, useSession} from "next-auth/react"
+import {signOut, useSession} from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
-import Logo from "../common/logo"
 import {AiFillEdit, AiFillEye, AiFillHome, AiOutlineLogout, AiFillDelete } from "react-icons/ai"
 import {GiBodyHeight, GiWeight} from "react-icons/gi"
-import { CircularProgressbar,CircularProgressbarWithChildren, buildStyles} from 'react-circular-progressbar';
+import { CircularProgressbar,CircularProgressbarWithChildren} from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import ProgressProvider from "../common/progress_provider";
 import ProgressBar from "@ramonak/react-progress-bar"
