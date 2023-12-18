@@ -46,7 +46,7 @@ export default function ProfileComponent()
     const [carbohydrate, setCarb] = useState(0);
     const [fats, setFats] = useState(0);
 
-    const id = session?.user.email
+    const email = session?.user.email
 
     useEffect(() => {
         setHeight(heightDb);
@@ -75,15 +75,16 @@ export default function ProfileComponent()
 
     const provider = session?.user.sessionName === "Credentials" ? "updateUserCredentials" : "updateUser"
 
-    const deleteHandler = async (id_food) => {
+    const deleteHandler = async () => {
         try {
             const response = await fetch("/api/deleteFood", {
                 method: 'DELETE',
-                body: JSON.stringify({id_user:id, id_food:id_food}),
+                body: JSON.stringify({id_user:email}),
                 headers: {
                 'Content-Type': 'application/json',
                 },
             })
+            console.log(response);
         } catch (error) {
             console.log(error);
         }
@@ -95,7 +96,7 @@ export default function ProfileComponent()
         try {
           const response = await fetch(`http://localhost:3000/api/${provider}`, {
             method: 'PUT',
-            body: JSON.stringify({_id:id, height:height, weight:weight}),
+            body: JSON.stringify({_id:email, height:height, weight:weight}),
             headers: {
               'Content-Type': 'application/json',
             },
@@ -383,7 +384,7 @@ export default function ProfileComponent()
                                                 <h1 className="flex items-center ml-10">{food.name}</h1>
                                                 <div className="flex ">
                                                     <button className="flex justify-center hover:bg-gray h-full w-20 p-5 rounded-r-lg"><AiFillEdit size={30} color="#454d66"/></button>
-                                                    <button onClick={deleteHandler} className="flex justify-center bg-dark-grass h-full w-20 p-5 rounded-r-lg"><AiFillDelete size={30} color="white"/></button>
+                                                    <button onClick={ async () => { await deleteHandler();}} className="flex justify-center bg-dark-grass h-full w-20 p-5 rounded-r-lg"><AiFillDelete size={30} color="white"/></button>
                                                 </div>
                                             </div>
                                         )
