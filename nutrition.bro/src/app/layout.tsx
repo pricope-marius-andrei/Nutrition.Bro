@@ -1,4 +1,3 @@
-'use client'
 import Provider from "@components/common/provider"
 import Footer from "@components/footer"
 import NavBar from "@components/navbar"
@@ -8,7 +7,7 @@ import { Inter } from 'next/font/google'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export const metadata: Metadata = {
+const metadata: Metadata = {
   title: 'Nutrition.Bro',
   description: 'Here you found all about nutrition',
 }
