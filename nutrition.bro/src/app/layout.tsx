@@ -4,6 +4,7 @@ import NavBar from "@components/navbar"
 import "@styles/globals.css"
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -24,6 +25,7 @@ export default function RootLayout({
           <main className="app">
             <NavBar/>  
             {children}
+            <SpeedInsights />
             <Footer/>
           </main>
         </Provider>
