@@ -1,3 +1,4 @@
+'use client'
 import Provider from "@components/common/provider"
 import Footer from "@components/footer"
 import NavBar from "@components/navbar"
