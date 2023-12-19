@@ -68,7 +68,7 @@ export default function PopUpAddFood(props) {
   const handleUpdateUser = async () => {
     console.log(provider);
     try {
-      const response = await fetch(`http://localhost:3000/api/${provider}`, {
+      const response = await fetch(`/api/${provider}`, {
         method: "PUT",
         body: JSON.stringify({
           _id: id,
