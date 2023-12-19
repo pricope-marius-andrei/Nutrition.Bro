@@ -94,7 +94,7 @@ export default function ProfileComponent()
 
         console.log(provider)
         try {
-          const response = await fetch(`http://localhost:3000/api/${provider}`, {
+          const response = await fetch(`/api/${provider}`, {
             method: 'PUT',
             body: JSON.stringify({_id:email, height:height, weight:weight}),
             headers: {
