@@ -4,7 +4,6 @@ import Button from "@components/common/button";
 import { getProviders, signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import google from "../../../public/social/google.svg"
 import {AiFillHome} from "react-icons/ai"
 
 async function register(first_name, last_name, email, password) {
