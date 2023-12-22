@@ -3,7 +3,7 @@ export default function ListItem(props)
     return (
         <div className="grid grid-cols-2">
             <div className="flex justify-center ">
-                <span className="flex justify-center items-center w-32 h-32 text-6xl text-center rounded-full outline-none outline-black outline-8 mb-5 text-black">{props.id}</span>
+                <span className="flex justify-center items-center md:w-32 md:h-32 w-24 h-24 md:text-6xl text-5xl text-center rounded-full outline-none outline-black outline-8 mb-5 text-black">{props.id}</span>
             </div>
             <div className="flex items-center">
                 {props.children}
