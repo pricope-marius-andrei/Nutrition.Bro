@@ -21,7 +21,7 @@ export default function NavBar()
 
     return (
         <nav className="flex py-5 text-sm bg-white drop-shadow-sm sticky top-0 justify-between">
-            <Link href="/" className="top my-auto pl-20">
+            <Link href="/" className="top my-auto ml-20">
                 {isPhone ? <Logo style="with-text"/> : <Logo/>}
             </Link>
 

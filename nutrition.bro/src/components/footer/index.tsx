@@ -11,7 +11,7 @@ export default function Footer()
                     <Logo largeLogo={true} withText={false}/>
                 </div>
                 <div className="m-auto">
-                    <ul className="text-white ml-10 text-lg font-fredoka-medium">
+                    <ul className="text-white sm:text-lg ml-4 text-sm font-fredoka-medium">
                         <li className="cursor-pointer">About us</li>
                         <li className="cursor-pointer">Contacts</li>
                         <li className="cursor-pointer">Terms & Conditions</li>
@@ -20,7 +20,7 @@ export default function Footer()
                 </div>
             </div>
             <div >
-                <h1 className="text-white font-fredoka-medium sm:text-xl text-lg mb-2">Newsletter</h1>
+                <h1 className="text-white font-fredoka-medium sm:text-xl text-base mb-2">Newsletter</h1>
                 <input placeholder="Enter your email" className="rounded-xl px-5 sm:w-80 w-40 py-2 mb-4"></input>
                 <div className="flex w-full justify-around">
                     <FaInstagram size={30} color="white"></FaInstagram>
