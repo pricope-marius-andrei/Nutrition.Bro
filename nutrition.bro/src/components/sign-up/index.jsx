@@ -9,7 +9,7 @@ import {AiFillHome} from "react-icons/ai"
 
 async function register(first_name, last_name, email, password) {
 
-    const responseUserExist = await fetch("http://localhost:3000/api/userExist", {
+    const responseUserExist = await fetch("/api/userExist", {
         method: 'POST',
         headers: {
             'Content-Type' : "application/json"
@@ -25,7 +25,7 @@ async function register(first_name, last_name, email, password) {
         return;
     }
 
-    const response = await fetch("http://localhost:3000/api/register/", {
+    const response = await fetch("/api/register/", {
       method: 'POST',
       headers: {
         'Content-Type' : "application/json"
