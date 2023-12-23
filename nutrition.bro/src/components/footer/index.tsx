@@ -5,7 +5,7 @@ import { FaInstagram,FaFacebook,FaTiktok  } from "react-icons/fa";
 export default function Footer()
 {
     return (
-        <div className="flex justify-between bg-gradient-to-r from-grass-green to-dark-grass p-12">
+        <div className="flex justify-between bg-gradient-to-r from-grass-green to-green p-12">
             <div className="flex">
                 <div className="ml-5 m-auto">
                     <Logo largeLogo={true} withText={false}/>

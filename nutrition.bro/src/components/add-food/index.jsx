@@ -2,6 +2,7 @@
 
 import {  useState } from "react";
 import { AiOutlinePlusCircle, AiOutlineBarChart, AiOutlineArrowLeft, AiFillPlusCircle } from "react-icons/ai";
+import {FaStore } from "react-icons/fa"
 import { TbEdit } from "react-icons/tb";
 import SearchBar from "@components/common/search_bar";
 import EditProgressBar from "@components/common/edit_prograss_bar";
@@ -19,10 +20,9 @@ async function getNutritionalValues(query) {
       headers: {
         "X-Api-Key": apiKey,
         "Content-Type": "application/json",
-        // 'Access-Control-Allow-Origin': 'http://localhost:3000' ,
       },
     });
-
+    console.log(response.data);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -108,21 +108,23 @@ export default function PopUpAddFood(props) {
   return (
     <div>
       {status === "none" && (
-        <div className="bg-gray h-96 w-full grid lg:grid-rows-1 grid-rows-2 lg:grid-cols-2 grid-cols-1 gap-5 p-16 heropattern-ilikefood-green/10">
+        <div className="bg-gray flex justify-center items-center h-96 w-full p-16 heropattern-ilikefood-green/10">
           <div className="flex justify-center">
             <button
               className=" bg-white hover:bg-gray rounded-lg drop-shadow-md w-fit"
               onClick={() => setStatus("search")}
             >
-              <div className="m-auto md:px-10">
-                <img className="lg:h-48 h-32 m-auto" src="./icons/logo.svg"></img>
-                <h1 className="lg:flex hidden font-fredoka-medium text-lg text-black mt-2 justify-center">
+              <div className="flex flex-col justify-center items-center p-10">
+                <div className="md:flex hidden">
+                  <FaStore color="#309975" size={60}/>
+                </div>
+                <h1 className="flex font-fredoka-medium text-lg text-black mt-2 justify-center">
                   Search Food
                 </h1>
               </div>
             </button>
           </div>
-          <div className="flex justify-center">
+          {/* <div className="flex justify-center">
             <button
               className="flex justify-center bg-white hover:bg-gray rounded-lg drop-shadow-md w-fit"
               onClick={() => setStatus("custom")}
@@ -134,7 +136,7 @@ export default function PopUpAddFood(props) {
                 </h1>
               </div>
             </button>
-          </div>
+          </div> */}
         </div>
       )}
       {status === "search" && (
@@ -151,12 +153,17 @@ export default function PopUpAddFood(props) {
               {
                 <button
                 onClick={async () => {
+                  setFoodSent("none")
                   try {
                     if (food.replace(" ", "").length > 0) {
                       const nutritionalValues = await getNutritionalValues(food);
                       setFood("");
-                      if (nutritionalValues !== undefined) {
-                        console.log(nutritionalValues[0]);
+                      if(nutritionalValues.length == 0)
+                      {
+                        alert("It didn't find the food!");
+                      }
+
+                      if (nutritionalValues !== undefined && nutritionalValues.length > 0) {
                         setNutrtionalValues(nutritionalValues[0]);
                         setFoodName(
                           nutritionalValues[0].name.slice(0, 1).toUpperCase() +
@@ -443,17 +450,23 @@ export default function PopUpAddFood(props) {
             statusFoodSent !== "none" &&
             <div>
                 {
-                    statusFoodSent == successful ? 
-                        <h1 className="text-green-lime">The food was added</h1>
+                    statusFoodSent == successful ?
+                    <div className="w-full h-full flex justify-center items-center">
+                      <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Check%20Mark%20Button.png" alt="Check Mark Button" width="25" height="25" />
+                      <h1>The food was added!</h1>
+                    </div>
                     :
-                        <h1 className="text-[#ff0000]">The food wasn't added</h1>
+                    <div className="w-full h-full flex justify-center items-center">
+                      <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Cross%20Mark%20Button.png" alt="Cross Mark Button" width="25" height="25" />
+                      <h1>The food wasn't added!</h1>
+                    </div>
                 }
             </div>
           }
         </div>
       )}
 
-      {status === "custom" && (
+      {/* {status === "custom" && (
         <div className="grid grid-row-3 grid-cols-1">
           <div className="bg-gray grid grid-cols-3 h-auto w-auto gap-7 font-fredoka-medium">
             <div className="flex w-full bg-gradient-to-tr from-green to-green-lime align-top mr-auto text-center m-auto text-white p-5">
@@ -494,7 +507,7 @@ export default function PopUpAddFood(props) {
             )}
           </div>
         </div>
-      )}
-    </div>
+      )}*/}
+    </div> 
   );
 }

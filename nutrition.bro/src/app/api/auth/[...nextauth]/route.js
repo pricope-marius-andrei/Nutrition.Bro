@@ -27,8 +27,6 @@ const handler = NextAuth({
                 }
                 const user = await UserCredentials.findOne({email:credentials.email});
 
-                console.log(`User: ${user}`)
-
                 if(!user )
                 {
                     throw new Error('The email is not correct')
@@ -49,7 +47,7 @@ const handler = NextAuth({
         })
     ],
     secret: process.env.NEXTAUTH_SECRET,
-    pages: "/log-in",
+    pages: "signIn: '/auth/signin'",
     callbacks: {
         async redirect({ url, baseUrl }) { return baseUrl },
         async jwt({token, trigger, session, user})
@@ -130,20 +128,7 @@ const handler = NextAuth({
                                 weight: 0
                             },
                             food: [
-                                // {
-                                //     name: " ",
-                                //     calories: 0,
-                                //     serving_size: 0,
-                                //     protein:0,
-                                //     carbohydrates:0,
-                                //     sugar: 0,
-                                //     total_fats:0,
-                                //     saturated_fats:0,
-                                //     potassium:0,
-                                //     sodium:0,
-                                //     fiber:0,
-                                //     cholesterol:0
-                                // }
+                                
                             ]
                         })
                     }

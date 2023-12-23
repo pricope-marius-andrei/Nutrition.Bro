@@ -8,26 +8,26 @@ export default function Guide() {
     return (
         <div>
             <div className='flex items-center justify-between flex-col py-36 bg-white heropattern-ilikefood-green-lime/10 full font-fredoka-medium'>
-                <h1 className="font-fredoka-semi-bold md:text-5xl text-3xl text-black mb-10">HOW TO USE OUR WEBSITE?</h1>
+                <h1 className="font-fredoka-semi-bold md:text-5xl text-3xl  text-black mb-10">HOW TO USE OUR WEBSITE?</h1>
                 
                 <ListItem id="1">
-                    <div className="bg-green p-2 rounded-3xl px-10 py-3 w-48 h-fit bg-gradient-to-r from-grass-green to-green text-white text-center mb-5">SIGN-UP</div>
+                    <div className="bg-white outline-none outline-black outline-4 hover:outline-0 p-2 rounded-3xl px-10 py-3 w-48 h-fit hover:bg-gradient-to-r hover:from-grass-green hover:to-green hover:text-white text-black text-center mb-5 font-fredoka-semi-bold hover:font-fredoka-medium">SIGN-UP</div>
                 </ListItem>
                 <ListItem id="2">
-                    <div className="bg-green p-2 rounded-3xl px-10 w-48 bg-transparent outline outline-black text-black outline-4 text-center mb-5"><span className="flex justify-center"><Image width={32} src={google}></Image><h1 className="my-auto">SIGN-UP</h1></span></div>
+                <div className="bg-white outline-none outline-black outline-4 hover:outline-0 p-2 rounded-3xl px-10 py-3 w-48 h-fit hover:bg-gradient-to-r hover:from-grass-green hover:to-green hover:text-white text-black text-center mb-5 font-fredoka-semi-bold hover:font-fredoka-medium"><span className="flex justify-center items-center "><FaGoogle size={30}/><h1 className="my-auto ml-1">SIGN-UP</h1></span></div>
                 </ListItem>
                 <ListItem id="3">
-                    <div className="bg-green p-2 rounded-3xl px-10 w-48 h-fit bg-gradient-to-r from-grass-green to-green text-white text-center mb-5"><span className="flex justify-center items-center "><RiAccountCircleFill size={35}/><h1 className="my-auto">PROFILE</h1></span></div>
+                    <div className="bg-white outline-none outline-black outline-4 hover:outline-0 p-2 rounded-3xl px-10 py-3 w-48 h-fit hover:bg-gradient-to-r hover:from-grass-green hover:to-green hover:text-white text-black text-center mb-5 font-fredoka-semi-bold hover:font-fredoka-medium"><span className="flex justify-center items-center "><RiAccountCircleFill size={35}/><h1 className="my-auto">PROFILE</h1></span></div>
                 </ListItem>
                 <ListItem id="4">
-                <div className="bg-green p-2 rounded-3xl px-10 py-3 w-48 h-fit bg-gradient-to-r from-grass-green to-green text-white text-center mb-5">ADD FOOD</div>
+                <div className="bg-white outline-none outline-black outline-4 hover:outline-0 p-2 rounded-3xl px-10 py-3 w-48 h-fit hover:bg-gradient-to-r hover:from-grass-green hover:to-green hover:text-white text-black text-center mb-5 font-fredoka-semi-bold hover:font-fredoka-medium">ADD FOOD</div>
                 </ListItem>
                 <ListItem id="5" finalItem={true}>
-                    <div className="flex justify-center text-black text-5xl text-center mb-5">
-                        <div className="flex justify-center">
-                            <span>Enjoy!</span>
-                            <span>🎉</span>
-                        </div>
+                    <div className="flex justify-center text-black text-5xl text-center w-48">
+                            <span className="w-fit my-auto">Enjoy!</span>
+                            <span className="w-1/3 h-fit my-auto">
+                                <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Activities/Party%20Popper.png" alt="Party Popper" width="100%" height="100%" />
+                            </span>
                     </div>
                 </ListItem>
                 
