@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import google from "../../../public/social/google.svg"
 import {AiFillHome} from "react-icons/ai"
 import Image from "next/image";
+import { FaGoogle } from "react-icons/fa";
 
 async function register(first_name, last_name, email, password) {
 
@@ -81,14 +82,24 @@ export default function SignUpComponent()
                     <h1 className="mt-5 text-center font-fredoka-semi-bold text-4xl text-black mb-5">SIGN-UP</h1>
                     <div className="flex justify-center">
                     {
-                        providers &&
+                        providers ?
                             <button 
                                 className="flex text-sm  bg-white py-2 px-12 text-black justify-center items-center
                                 font-fredoka-medium outline-none outline-2 outline-black rounded-lg hover:drop-shadow-xl" 
-                                onClick={()=>signIn()}
+                                onClick={()=>signIn()} 
                             >
                                 <span>
                                     <Image width={25} height={25} src={google}></Image>
+                                </span>
+                                Sign-up with Google
+                            </button>
+                        :
+                        <button 
+                                className="cursor-not-allowed flex text-sm  bg-white py-2 px-12 text-black justify-center items-center
+                                font-fredoka-medium outline-none outline-2 outline-black rounded-lg hover:drop-shadow-xl" 
+                            >
+                                <span className="mr-1">
+                                    <FaGoogle size={20}></FaGoogle>
                                 </span>
                                 Sign-up with Google
                             </button>

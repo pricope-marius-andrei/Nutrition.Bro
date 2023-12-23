@@ -12,8 +12,16 @@ import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import PopUpAddFood from "../add-food"
 import useSWR from "swr"
+import randomNumber from "../../utils/random"
 
 const fetcher = (url) => fetch(url).then((res)=>res.json());
+
+let loadingImges = {
+    "1": "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/People%20with%20activities/Person%20Bouncing%20Ball%20Light%20Skin%20Tone.png",
+    "2": "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/People%20with%20activities/Man%20Running%20Light%20Skin%20Tone.png"
+}
+
+
 
 export default function ProfileComponent()
 {
@@ -84,7 +92,6 @@ export default function ProfileComponent()
                 'Content-Type': 'application/json',
                 },
             })
-            console.log(response);
         } catch (error) {
             console.log(error);
         }
@@ -92,7 +99,6 @@ export default function ProfileComponent()
     
     const handleUpdateUser = async () => {
 
-        console.log(provider)
         try {
           const response = await fetch(`/api/${provider}`, {
             method: 'PUT',
@@ -158,7 +164,7 @@ export default function ProfileComponent()
                 <div className="m-5 w-full">
                     <div className="flex h-fit w-full">
                         {/*Goal section */}
-                        <div className="flex rounded-s-lg px-10 py-4 w-full bg-gradient-to-r from-green to-grass-green">
+                        <div className="flex rounded-s-lg px-10 py-4 w-full bg-gradient-to-tr to-green from-grass-green">
                             <div className="flex">
                                 <div className="h-fit w-20 mr-5">
                                     <ProgressProvider valueStart={0} valueEnd={goalPercentage}>
@@ -321,8 +327,8 @@ export default function ProfileComponent()
                                                 <h1 className="font-fredoka-medium text-black">Protein</h1>
                                                 <ProgressBar
                                                     bgColor="#13815B"
-                                                    completed={(protein * 100 / weight * 2).toFixed(2)}
-                                                    // customLabel={`120 grams`}
+                                                    completed={(protein * 100 / (weight ? weight : 1) * 2).toFixed(2)}
+                                                    customLabel={`${protein} g`}
                                                     width="100%"
                                                     baseBgColor="#C2C2C2"
                                                 />
@@ -332,7 +338,7 @@ export default function ProfileComponent()
                                                 <ProgressBar
                                                     bgColor="#EFEEB4"
                                                     completed={carbohydrate}
-                                                    // customLabel={`2000 grams`}
+                                                    customLabel={`${carbohydrate} g`}
                                                     labelColor="#454d66"
                                                     width="100%"
                                                     baseBgColor="#C2C2C2"
@@ -343,7 +349,7 @@ export default function ProfileComponent()
                                                 <ProgressBar
                                                     bgColor="#58B368"
                                                     completed={fats}
-                                                    // customLabel={`20 grams`}
+                                                    customLabel={`${fats} g`}
                                                     width="100%"
                                                     baseBgColor="#C2C2C2"
                                                 />
@@ -370,7 +376,7 @@ export default function ProfileComponent()
                             <div className="bg-white h-fit w-full rounded-lg">
                                 <div className="flex w-full h-fit justify-between">
                                     <h1 className="my-auto ml-10 font-fredoka-medium text-[#309975] text-xl">Today's list</h1>
-                                    <div className="flex bg-gradient-to-tr from-green to-grass-green h-fit w-32 align-top rounded-tr-lg ml-auto">
+                                    <div className="flex bg-gradient-to-tr from-grass-green to-green h-fit w-32 align-top rounded-tr-lg ml-auto">
                                     <Popup trigger={<button className="text-center m-auto text-white font-fredoka-medium p-5" onClick={()=>{setPopUpAddFood(true)}}>Add Food</button>} modal nested>
                                         <PopUpAddFood dataSession={session}></PopUpAddFood>
                                     </Popup>
@@ -383,8 +389,7 @@ export default function ProfileComponent()
                                             <div key={food._id} className="flex justify-between w-auto h-fit mx-5 bg-white rounded-lg drop-shadow-lg font-fredoka-medium">
                                                 <h1 className="flex items-center ml-10">{food.name}</h1>
                                                 <div className="flex ">
-                                                    <button className="flex justify-center hover:bg-gray h-full w-20 p-5 rounded-r-lg"><AiFillEdit size={30} color="#454d66"/></button>
-                                                    <button onClick={ async () => { await deleteHandler();}} className="flex justify-center bg-dark-grass h-full w-20 p-5 rounded-r-lg"><AiFillDelete size={30} color="white"/></button>
+                                                    <button onClick={ async () => { await deleteHandler();}} className="flex justify-center bg-gradient-to-tr from-grass-green to-green h-full w-20 p-5 rounded-r-lg"><AiFillDelete size={30} color="white"/></button>
                                                 </div>
                                             </div>
                                         )
@@ -399,7 +404,8 @@ export default function ProfileComponent()
     }
 
     return (
-        <div className="w-screen h-screen bg-dark-grass">
+        <div className="flex justify-center items-center w-screen h-screen bg-gradient-to-tr from-grass-green to-green">
+            <img src={loadingImges[randomNumber(1,2)]} alt="Loading..." width="10%" height="10%" />
         </div>
     )
 }
