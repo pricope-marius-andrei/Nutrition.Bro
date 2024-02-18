@@ -30,6 +30,11 @@ const UserSchema = new Schema(
                     type: String,
                     required: false
                 },
+                date_added: 
+                {
+                    type: Date,
+                    required: true
+                },
                 calories: 
                 {
                     type: Number,

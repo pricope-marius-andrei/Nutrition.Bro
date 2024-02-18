@@ -86,6 +86,7 @@ const handler = NextAuth({
                     },       
                     food: (user?.food || []).map((foodItem)=> ({
                         name:foodItem.name,
+                        date_added: foodItem.date_added,
                         calories:foodItem.calories,
                         serving_size:foodItem.serving_size,
                         protein:foodItem.protein,

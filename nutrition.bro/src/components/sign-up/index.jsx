@@ -1,6 +1,5 @@
 'use client'
 
-import Button from "@components/common/button";
 import { getProviders, signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -9,48 +8,9 @@ import {AiFillHome} from "react-icons/ai"
 import Image from "next/image";
 import { FaGoogle } from "react-icons/fa";
 
-async function register(first_name, last_name, email, password) {
-
-    const responseUserExist = await fetch("/api/userExist", {
-        method: 'POST',
-        headers: {
-            'Content-Type' : "application/json"
-        },
-        body: JSON.stringify({email})
-    })
-
-    const {user} = await responseUserExist.json()
-
-    if(user)
-    {
-        alert("The user exist");
-        return;
-    }
-
-    const response = await fetch("/api/register/", {
-      method: 'POST',
-      headers: {
-        'Content-Type' : "application/json"
-      },
-      body: JSON.stringify({ first_name, last_name, email, password }),
-    });
-    const data = await response.json();
-}
-
 export default function SignUpComponent()
 {
     const {data:session} = useSession()
-
-    const [first_name, setFirstName] = useState("")
-    const [last_name, setLastName] = useState("")
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-
-
-    const handleRegister = async (e) => {
-        e.preventDefault()
-        await register(first_name,last_name,email,password)
-    }
 
     const [providers, setProviders] = useState(null)
     

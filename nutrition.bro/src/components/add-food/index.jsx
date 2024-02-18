@@ -66,12 +66,12 @@ export default function PopUpAddFood(props) {
   const id = props.dataSession?.user.email;
 
   const handleUpdateUser = async () => {
-    console.log(provider);
     try {
       const response = await fetch(`/api/${provider}`, {
         method: "PUT",
         body: JSON.stringify({
           _id: id,
+          date_added: props.date_added,
           name: foodName,
           calories: calories,
           serving_size: servingSize,
@@ -124,19 +124,6 @@ export default function PopUpAddFood(props) {
               </div>
             </button>
           </div>
-          {/* <div className="flex justify-center">
-            <button
-              className="flex justify-center bg-white hover:bg-gray rounded-lg drop-shadow-md w-fit"
-              onClick={() => setStatus("custom")}
-            >
-              <div className="m-auto md:px-10">
-                <img className="lg:h-48 h-32 m-auto" src="./icons/logo.svg"></img>
-                <h1 className="lg:flex hidden font-fredoka-medium text-lg text-black mt-2 justify-center">
-                  Custom Meal
-                </h1>
-              </div>
-            </button>
-          </div> */}
         </div>
       )}
       {status === "search" && (

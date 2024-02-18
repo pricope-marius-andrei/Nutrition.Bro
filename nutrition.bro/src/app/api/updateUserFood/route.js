@@ -6,6 +6,7 @@ export async function PUT(req) {
 
     const {
         _id,
+        date_added,
         name,
         calories,
         serving_size,
@@ -18,13 +19,15 @@ export async function PUT(req) {
         sodium,
         fiber,
         cholesterol} = await req.json();
-    // console.log(food);
-    try {
+
+        try {
         connectToDB();
         const id = await User.findOne({email:_id}).select("_id");
         // console.log(`Id:${id}`);
+        console.log(date_added);
         const user = await User.findByIdAndUpdate(id, {$push:{food:[{
             name,
+            date_added,
             calories,
             serving_size,
             protein,
